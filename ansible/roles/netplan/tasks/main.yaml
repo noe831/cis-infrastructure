@@ -1,0 +1,26 @@
+#
+# Setup network bridges for the CIS infrastructure.
+#
+# This playbook expects that the system has an iterface
+# named "cisnet" that is trunked to the CIS vlans. It
+# creates bridges on the host:
+#
+# external - vlan 187
+# server - vlan 425
+# room828 - vlan 828
+# room829 - vlan 829
+# room830 - vlan 830
+#
+# The bridge interfaces will NOT receive IP addresses of
+# their own. This is by design.
+#
+
+- name: Add CIS Networking Bridge Configuration
+  become: yes
+  copy:
+    src: files/70-cis-bridge.yaml
+    dest: /etc/netplan
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: netplan apply 

@@ -1,0 +1,55 @@
+$TTL 1d
+$ORIGIN cis.cabrillo.edu.
+@  	IN	SOA ns1.cis.cabrillo.edu. cis-netadmin.cabrillo.edu. (
+			2020030501; serial
+			30m ; refresh
+			15m ; retry
+			1w ; expire
+			30m ; minimum
+	  	)
+
+@ IN	NS	ns1.cis.cabrillo.edu.
+@ IN	NS	ns2.cis.cabrillo.edu.
+
+; By Mike (have opus handle mail)
+@ IN	MX	10 opus
+@ IN	TXT	"v=spf1 ip4:207.62.187.0/24 ip6:2607:f380:80f::/48 -all"
+
+jeff		IN 	CAA	0 issue "letsencrypt.org"
+jeff		IN	CAA	0 issuewild "letsencrypt.org"
+
+jupyter     IN      CAA     0 issue "letsencrypt.org"
+jupyter     IN      CAA     0 issuewild "letsencrypt.org"
+
+;@		IN 	CAA	0 issue "letsencrypt.org"
+;@		IN	CAA	0 issuewild "letsencrypt.org"
+
+
+; Servers
+nocry		IN	A	207.62.187.225 ; was 222
+
+cislab		IN	A	207.62.187.228
+pengo       IN  A   207.62.187.229
+opus		IN	A	207.62.187.230	
+
+jeff		IN	A	207.62.187.233
+
+ed			IN	A	207.62.187.234
+
+ns1			IN	A	207.62.187.252
+ns2			IN	A	207.62.187.253
+
+
+
+cislab          IN      AAAA    2607:f380:80f:f425::228
+pengo           IN      AAAA    2607:f380:80f:f425::229
+opus            IN      AAAA    2607:f380:80f:f425::230
+jeff            IN      AAAA    2607:f380:80f:f425::233
+ed              IN      AAAA    2607:f380:80f:f425::234
+
+ns1             IN      AAAA    2607:f380:80f:f425::252
+ns2             IN      AAAA    2607:f380:80f:f425::253
+
+; Amazon VMs
+killgrave	IN	CNAME	killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
+osticket	IN	CNAME	ec2-3-92-161-73.compute-1.amazonaws.com.

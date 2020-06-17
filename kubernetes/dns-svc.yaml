@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cis-dns-external-ipv4-1
+  labels:
+    app: cis-dns-external-1
+spec:
+  selector:
+    app: cis-dns-external
+  ports:
+    - name: dns
+      port: 53
+      protocol: UDP 
+  externalIPs:
+    - 207.62.187.250
+    - 207.62.187.251
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: cis-dns-internal-ipv4-1
+    labels:
+      app: cis-dns-internal-1
+  spec:
+    selector:
+      app: cis-dns-internal
+    ports:
+      - name: dns
+        port: 53
+        protocol: UDP 
+    externalIPs:
+      - 172.30.5.201
+      - 172.30.5.202
+  

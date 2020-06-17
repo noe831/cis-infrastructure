@@ -1,0 +1,24 @@
+#
+# Create admin accounts on opus (and possibly other login servers).
+#
+# Accounts are created without passwords, only SSH keys.
+#
+
+- name: Add the user mmatera
+  user:
+    name: mmatera
+    shell: /bin/bash
+    home: /home/mmatera
+    groups: adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev,docker
+    append: yes
+
+- name: Add keys for mmatera
+  authorized_key:
+    user: mmatera
+    uid: 1001
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - files/keys/mmatera/mouthfeel.pub
+    - files/keys/mmatera/phoenix.pub
+    - files/keys/mmatera/turbine.pub

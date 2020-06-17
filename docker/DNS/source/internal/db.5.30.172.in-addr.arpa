@@ -1,0 +1,56 @@
+$TTL	86400 
+$ORIGIN 5.30.172.in-addr.arpa.
+@		IN	SOA ns1.cis.cabrillo.edu. cis-netadmin.cabrillo.edu.  (
+                        	2018012300; Serial
+                        	30m      ; Refresh
+                        	15m      ; Retry
+                        	1w       ; Expire
+                        	30m      ; Minimum
+			)
+        	IN      NS      ns1.cis.cabrillo.edu.
+        	IN      NS      ns2.cis.cabrillo.edu.
+; Servers
+1       	IN      PTR     nocry.cis.cabrillo.edu.
+2		IN	PTR	nosmo.cis.cabrillo.edu.
+5		IN	PTR	rdserver.cis.cabrillo.edu.
+8		IN	PTR	cisvdc.cis.cabrillo.edu.
+10		IN	PTR	netlab.cis.cabrillo.edu.
+12		IN	PTR	studentlab.cis.cabrillo.edu.
+13		IN	PTR	sqlserver.cis.cabrillo.edu.
+14		IN	PTR	vcenter-6-0.cis.cabrillo.edu.
+15		IN	PTR	vcentre-6-5.cis.cabrillo.edu.
+16		IN	PTR	sql2008.cis.cabrillo.edu.
+17		IN	PTR	hershey.cis.cabrillo.edu.
+18		IN	PTR	ucsserver.cis.cabrillo.edu.
+19		IN	PTR	nfs1.cis.cabrillo.edu.
+20		IN	PTR	opus.cis.cabrillo.edu.
+21		IN	PTR	sun-hwa.cis.cabrillo.edu.
+22		IN	PTR	sun-hwa-ii.cis.cabrillo.edu.
+23		IN	PTR	pengo2.cis.cabrillo.edu.
+24		IN	PTR	jeff.cis.cabrillo.edu.
+26		IN	PTR	ed.cis.cabrillo.edu.
+27		IN	PTR	rick.cis.cabrillo.edu.
+28		IN	PTR	valiente.cis.cabrillo.edu.
+29		IN	PTR	sharon.cis.cabrillo.edu.
+32		IN	PTR	vc-infra-6-0.cis.cabrillo.edu.
+
+35		IN	PTR	ids-01.cis.cabrillo.edu.
+36		IN	PTR	kali.cis.cabrillo.edu.
+38		IN	PTR	APC-01.cis.cabrillo.edu.
+40		IN	PTR	slinky.cis.cabrillo.edu.
+41		IN	PTR	matera.cis.cabrillo.edu.
+42              IN      PTR     torc0.cis.cabrillo.edu.
+43              IN      PTR     pengo.cis.cabrillo.edu.
+44              IN      PTR     opus-ii.cis.cabrillo.edu.
+45              IN      PTR     irvinmac.cis.cabrillo.edu.
+60              IN      PTR     EvilPorkchop.cis.cabrillo.edu.
+
+101		IN	PTR	ns1.cis.cabrillo.edu.
+102		IN	PTR	ns2.cis.cabrillo.edu.
+103		IN	PTR	ns2.cis.cabrillo.edu.
+111		IN	PTR	ds1.cis.cabrillo.edu.
+112		IN	PTR	ds2.cis.cabrillo.edu.
+113		IN	PTR	ds2.cis.cabrillo.edu.
+200		IN	PTR	storage1.cis.cabrillo.edu.
+201		IN	PTR	storage2.cis.cabrillo.edu.
+254		IN  	PTR	pa-500.cis.cabrillo.edu.

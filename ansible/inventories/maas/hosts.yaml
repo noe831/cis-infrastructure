@@ -1,0 +1,49 @@
+all:
+  hosts:
+    dell-r630-1:
+      ansible_host: 192.168.0.130
+    supermicro-1:
+      ansible_host: 192.168.0.131
+    supermicro-2:
+      ansible_host: 192.168.0.132
+    supermicro-3:
+      ansible_host: 192.168.0.133
+#    dell-r620-1:
+#      ansible_host: 192.168.0.134
+    dell-r620-2:
+      ansible_host: 192.168.0.135
+    dell-r610-1:
+      ansible_host: 192.168.0.136
+    dell-r610-1:
+      ansible_host: 192.168.0.137
+    dell-r610-1:
+      ansible_host: 192.168.0.138
+  children:
+    maas:
+      hosts:
+        dell-r630-1:
+        supermicro-1:
+        supermicro-2:
+        supermicro-3:
+        dell-r620-1:
+        dell-r620-2:
+        dell-r610-1:
+        dell-r610-1:
+        dell-r610-1:
+    dell-r630:
+      hosts:
+        dell-r630-1:
+    supermicro:
+      hosts:
+        supermicro-1:
+        supermicro-2:
+        supermicro-3:
+    dell-r620:
+      hosts:
+        dell-r620-1:
+        dell-r620-2:
+    dell-r610:
+      hosts:
+        dell-r610-1:
+        dell-r610-1:
+        dell-r610-1:

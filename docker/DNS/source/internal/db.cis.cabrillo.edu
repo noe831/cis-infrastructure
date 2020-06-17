@@ -1,0 +1,489 @@
+$TTL 1d
+;
+; Internal view - for use by CIS department clients
+;
+$ORIGIN cis.cabrillo.edu.
+@  	IN	SOA ns1.cis.cabrillo.edu. cis-netadmin.cabrillo.edu. (
+			2020030501; serial
+			30m ; refresh
+			15m ; retry
+			1w ; expire
+			30m ; minimum
+	  	)
+	IN	NS	ns1.cis.cabrillo.edu.
+	IN	NS	ns2.cis.cabrillo.edu.
+
+; By Mike (have opus handle mail)
+@   IN      MX      10 	oslab
+@	IN		TXT			"v=spf1 ip4:207.62.187.0/24 ip6:2607:f380:80f::/48 -all"
+
+; Servers
+nocry		IN 	A	207.62.187.225
+nosmo		IN	A	172.30.5.2
+rdserver	IN	A	172.30.5.5
+cisvdc		IN	A	172.30.5.8
+netlab		IN	A	172.30.5.10
+studentlab	IN	A	172.30.5.12
+sqlserver	IN	A	172.30.5.13
+vcenter-6-0 	IN	A	172.30.5.14
+vcenter 	IN	A	172.30.5.14
+vcentre-6-5	IN	A	172.30.5.15
+vcentre		IN	A	172.30.5.15
+sql2008		IN	A	172.30.5.16
+hershey		IN	A	172.30.5.17
+ucsserver	IN	A	172.30.5.18
+nfs1		IN	A	172.30.5.19
+oslab		IN	A	172.30.5.20
+sun-hwa		IN	A	172.30.5.21
+sun-hwa-ii	IN	A	172.30.5.22
+pengo2		IN	A	172.30.5.23
+jeff		IN	A	172.30.5.24
+ed       	IN	A	172.30.5.26
+rick       	IN	A	172.30.5.27
+;valiente	IN	A	172.30.5.28
+sharon		IN	A	172.30.5.29
+vc-infra-6-0    IN      A	172.30.5.32
+vc-infra    	IN      A	172.30.5.32
+ids-01		IN	A	172.30.5.35
+kali		IN	A	172.30.5.36
+APC-01		IN	A	172.30.5.38
+slinky		IN	A	172.30.5.40
+matera		IN	A	172.30.5.41
+pengo		IN	A	172.30.5.43
+opus-ii		IN	A	172.30.5.44
+irvinmac	IN	A	172.30.5.45
+EvilPorkchop	IN	A	172.30.5.60
+ns1		IN	A	172.30.5.101
+ns2		IN	A	172.30.5.102
+ds1		IN	A	172.30.5.111
+ds2		IN	A	172.30.5.112
+storage1	IN	A	172.30.5.200
+storage2	IN	A	172.30.5.201
+nms1		IN	A 	172.30.5.248
+nms2		IN	A	172.30.5.249
+pa-500		IN	A	172.30.5.254
+
+; New rack setup 
+rack0		IN	A 	172.19.0.2 
+rack0		IN 	AAAA	2607:f380:80f:f192::2
+tux		IN	A	172.19.100.1 
+opus3		IN	A	172.19.100.2
+jupyter		IN	A	172.19.100.3 
+
+vcenter-6-0	IN	AAAA	2607:f380:80f:f425::14
+vcenter		IN	AAAA	2607:f380:80f:f425::14
+vcentre-6-5	IN	AAAA	2607:f380:80f:f425::15
+vcentre		IN	AAAA	2607:f380:80f:f425::15
+vC-infra-6-0	IN	AAAA	2607:f380:80f:f425::32
+vC-infra	IN	AAAA	2607:f380:80f:f425::32
+slinky          IN      AAAA    2607:f380:80f:f425::40
+matera		IN	AAAA	2607:f380:80f:f425::41
+irvinmac	IN	AAAA	2607:f380:80f:f425::45
+EvilPorkchop	IN	AAAA	2607:f380:80f:f425::60
+
+rdserver        IN      AAAA    2607:f380:80f:f425::228
+pengo           IN      AAAA    2607:f380:80f:f425::229
+oslab           IN      AAAA    2607:f380:80f:f425::230
+sun-hwa         IN      AAAA    2607:f380:80f:f425::231
+pengo2          IN      AAAA    2607:f380:80f:f425::232
+jeff            IN      AAAA    2607:f380:80f:f425::233
+ed              IN      AAAA    2607:f380:80f:f425::234
+rick            IN      AAAA    2607:f380:80f:f425::235
+sharon          IN      AAAA    2607:f380:80f:f425::237
+
+;valiente        IN      AAAA    2607:f380:80f:f425::243
+opus-ii         IN      AAAA    2607:f380:80f:f425::244
+
+ds1             IN      AAAA    2607:f380:80f:f425::250
+ds2             IN      AAAA    2607:f380:80f:f425::251
+ns1             IN      AAAA    2607:f380:80f:f425::252
+ns2             IN      AAAA    2607:f380:80f:f425::253
+pa-500		IN	AAAA	2607:f380:80f:f425::254
+
+cislab		IN	CNAME	rdserver	
+opus		IN	CNAME	oslab
+dns1            IN      CNAME   ds1
+dns2            IN      CNAME   ds2
+db		IN	CNAME	oslab
+
+; VLAN 830 VMs
+snickers	IN	A	172.20.0.22
+snickers	IN	AAAA	2607:f380:80f:f830::22
+
+; Robotics CI machine
+robot		IN	A	172.20.0.65 
+
+;Use these to find the NEW cis.cabrillo.edu domain controller (Slinky)
+;_ldap._tcp.cis.cabrillo.edu. 			SRV 0 0 389 slinky.cis.cabrillo.edu.
+;_kerberos._tcp.cis.cabrillo.edu. 		SRV 0 0 88 slinky.cis.cabrillo.edu.
+;_ldap._tcp.dc._msdcs.cis.cabrillo.edu. 	SRV 0 0 389 slinky.cis.cabrillo.edu.
+;_kerberos._tcp.dc._msdcs.cis.cabrillo.edu. 	SRV 0 0 88 slinky.cis.cabrillo.edu.
+
+; CIS 90 devices hosted on Microlab 
+uLab-SW3	IN	A	172.20.90.3
+uLab-SW4        IN      A       172.20.90.4
+uLab-SW5        IN      A       172.20.90.5
+uLab-SW6	IN	A 	172.20.90.6
+uLab-AP1	IN	A	172.20.90.11
+uLab-Z1		IN	A	172.20.90.21
+uLab-RP02	IN	A	172.20.90.32
+uLab-RP06	IN	A	172.20.90.36
+uLab-RP07       IN      A       172.20.90.37
+uLab-RP08       IN      A       172.20.90.38
+uLab-poly1      IN      A       172.20.90.41
+uLab-poly2      IN      A       172.20.90.42
+
+uLab-LEDs	IN	CNAME	uLab-Z1
+uLab-facecam	IN	CNAME	uLab-RP02
+uLab-raspbx	IN	CNAME	uLab-RP06
+uLab-volumio	IN	CNAME	uLab-RP07
+uLab-webcam	IN	CNAME	uLab-RP08
+
+
+
+monitor		IN	A	172.20.90.50
+defiant		IN	A	172.20.90.51
+lexington	IN	A	172.20.90.52
+enterprise	IN	A	172.20.90.53
+intrepid	IN	A	172.20.90.54
+freedom		IN	A	172.20.90.55
+excalibur	IN	A	172.20.90.56
+apollo		IN	A	172.20.90.57
+rhea		IN	A	172.20.90.58
+europa		IN	A	172.20.90.59
+
+sister-of-opus  IN      A       172.20.90.60
+sun-hwa-iv      IN      A       172.20.90.61
+sun-hwa-v       IN      A       172.20.90.62
+sun-hwa-l5      IN      A       172.20.90.63
+sun-hwa-vii     IN      A       172.20.90.64
+sun-hwa-p2      IN      A       172.20.90.65
+sun-hwa-t2      IN      A       172.20.90.66
+sun-hwa-p3      IN      A       172.20.90.67
+sun-hwa-t3      IN      A       172.20.90.68
+sun-hwa-iii     IN      A       172.20.90.69
+
+
+Arya-01        IN      A       172.20.90.101
+Arya-02        IN      A       172.20.90.102
+Arya-03        IN      A       172.20.90.103
+Arya-04        IN      A       172.20.90.104
+Arya-05        IN      A       172.20.90.105
+Arya-06        IN      A       172.20.90.106
+Arya-07        IN      A       172.20.90.107
+Arya-08        IN      A       172.20.90.108
+Arya-09        IN      A       172.20.90.109
+Arya-10        IN      A       172.20.90.110
+Arya-11        IN      A       172.20.90.111
+Arya-12        IN      A       172.20.90.112
+Arya-13        IN      A       172.20.90.113
+Arya-14        IN      A       172.20.90.114
+Arya-15        IN      A       172.20.90.115
+Arya-16        IN      A       172.20.90.116
+Arya-17        IN      A       172.20.90.117
+Arya-18        IN      A       172.20.90.118
+Arya-19        IN      A       172.20.90.119
+Arya-20        IN      A       172.20.90.120
+Arya-21        IN      A       172.20.90.121
+Arya-22        IN      A       172.20.90.122
+Arya-23        IN      A       172.20.90.123
+Arya-24        IN      A       172.20.90.124
+Arya-25        IN      A       172.20.90.125
+Arya-26        IN      A       172.20.90.126
+Arya-27        IN      A       172.20.90.127
+Arya-28        IN      A       172.20.90.128
+Arya-29        IN      A       172.20.90.129
+Arya-30        IN      A       172.20.90.130
+Arya-31        IN      A       172.20.90.131
+Arya-32        IN      A       172.20.90.132
+Arya-33        IN      A       172.20.90.133
+Arya-34        IN      A       172.20.90.134
+Arya-35        IN      A       172.20.90.135
+Arya-36        IN      A       172.20.90.136
+Arya-37        IN      A       172.20.90.137
+Arya-38        IN      A       172.20.90.138
+Arya-39        IN      A       172.20.90.139
+Arya-40        IN      A       172.20.90.140
+Arya-41        IN      A       172.20.90.141
+Arya-42        IN      A       172.20.90.142
+Arya-43        IN      A       172.20.90.143
+Arya-44        IN      A       172.20.90.144
+Arya-45        IN      A       172.20.90.145
+Arya-46        IN      A       172.20.90.146
+Arya-47        IN      A       172.20.90.147
+Arya-48        IN      A       172.20.90.148
+Arya-49        IN      A       172.20.90.149
+Arya-50        IN      A       172.20.90.150
+Arya-51        IN      A       172.20.90.151
+Arya-52        IN      A       172.20.90.152
+Arya-53        IN      A       172.20.90.153
+Arya-54        IN      A       172.20.90.154
+Arya-55        IN      A       172.20.90.155
+Arya-56        IN      A       172.20.90.156
+Arya-57        IN      A       172.20.90.157
+Arya-58        IN      A       172.20.90.158
+Arya-59        IN      A       172.20.90.159
+Arya-60        IN      A       172.20.90.160
+Arya-61        IN      A       172.20.90.161
+Arya-62        IN      A       172.20.90.162
+Arya-63        IN      A       172.20.90.163
+Arya-64        IN      A       172.20.90.164
+Arya-65        IN      A       172.20.90.165
+Arya-66        IN      A       172.20.90.166
+Arya-67        IN      A       172.20.90.167
+Arya-68        IN      A       172.20.90.168
+Arya-69        IN      A       172.20.90.169
+Arya-70        IN      A       172.20.90.170
+Arya-71        IN      A       172.20.90.171
+Arya-72        IN      A       172.20.90.172
+Arya-73        IN      A       172.20.90.173
+Arya-74        IN      A       172.20.90.174
+Arya-75        IN      A       172.20.90.175
+
+catalina	IN	A	172.20.90.201
+doc		IN	A	172.20.90.202
+razia		IN	A	172.20.90.203
+thabiti		IN	A	172.20.90.204
+kakenya		IN	A	172.20.90.205
+hannah		IN	A	172.20.90.206
+verona		IN	A	172.20.90.207
+mantua		IN	A	172.20.90.208
+capulet		IN	A	172.20.90.209
+montague	IN	A	172.20.90.210
+
+; Show and Tell (devices brought to class from home)
+home-PanTilt	IN	A	172.20.90.230
+home-ZeroW	IN	A	172.20.90.231
+home-HPEnvy4500	IN	A	172.20.90.232
+
+; FBCTF
+fbctf		IN	A	172.20.200.2
+
+; CIS 76 Microlab EH Red Blue devices
+uLab-CRS01	IN	A	192.168.76.2
+uLab-CRS02	IN	A	192.168.78.2
+
+redteam		IN	CNAME	uLab-CRS01
+blueteam	IN	CNAME	uLab-CRS02
+
+
+; Microlab - used for EH class
+uLab-R1			IN	A	172.30.10.2
+uLab-R4			IN	A	172.30.10.3
+ceh-win-2012		IN	A	172.30.10.34
+uL-Master-Cylinder  	IN  	A       172.30.10.36
+EH-Centos		IN	A	172.30.10.160
+EH-Rouji		IN	A	172.30.10.161
+EH-Win7			IN	A	172.30.10.162
+EH-IRC			IN	A	172.30.10.163
+EH-Centos-80RunAcc	IN	A	172.30.10.164
+EH-Centos-80RunRej	IN	A	172.30.10.165
+EH-Centos-80RunDrp	IN	A	172.30.10.166
+EH-Centos-80StpAcc	IN	A	172.30.10.167
+EH-WS2008-Ent		IN	A	172.30.10.168
+EH-Win81		IN	A	172.30.10.169
+EH-WS2003		IN	A	172.30.10.170
+EH-WS2008-Std		IN	A	172.30.10.171
+EH-WS2012-DC		IN	A	172.30.10.172
+EH-Kali			IN	A	172.30.10.173
+EH-WinXP		IN	A	172.30.10.174
+EH-OWASP		IN	A	172.30.10.175
+EH-WS2008-DC		IN	A	172.30.10.176
+
+
+EH-pfSense-00	IN	A	172.30.10.200
+EH-pfSense-01	IN	A	172.30.10.201
+EH-pfSense-02	IN	A	172.30.10.202
+EH-pfSense-03	IN	A	172.30.10.203
+EH-pfSense-04	IN	A	172.30.10.204
+EH-pfSense-05	IN	A	172.30.10.205
+EH-pfSense-06	IN	A	172.30.10.206
+EH-pfSense-07	IN	A	172.30.10.207
+EH-pfSense-08	IN	A	172.30.10.208
+EH-pfSense-09	IN	A	172.30.10.209
+EH-pfSense-10	IN	A	172.30.10.210
+EH-pfSense-11	IN	A	172.30.10.211
+EH-pfSense-12	IN	A	172.30.10.212
+EH-pfSense-13	IN	A	172.30.10.213
+EH-pfSense-14	IN	A	172.30.10.214
+EH-pfSense-15	IN	A	172.30.10.215
+EH-pfSense-16	IN	A	172.30.10.216
+EH-pfSense-17	IN	A	172.30.10.217
+EH-pfSense-18	IN	A	172.30.10.218
+EH-pfSense-19	IN	A	172.30.10.219
+EH-pfSense-20	IN	A	172.30.10.220
+EH-pfSense-21	IN	A	172.30.10.221
+EH-pfSense-22	IN	A	172.30.10.222
+EH-pfSense-23	IN	A	172.30.10.223
+EH-pfSense-24	IN	A	172.30.10.224
+EH-pfSense-25	IN	A	172.30.10.225
+EH-pfSense-26	IN	A	172.30.10.226
+EH-pfSense-27	IN	A	172.30.10.227
+EH-pfSense-28	IN	A	172.30.10.228
+EH-pfSense-29	IN	A	172.30.10.229
+EH-pfSense-30	IN	A	172.30.10.230
+EH-pfSense-31	IN	A	172.30.10.231
+EH-pfSense-32	IN	A	172.30.10.232
+EH-pfSense-33	IN	A	172.30.10.233
+EH-pfSense-34	IN	A	172.30.10.234
+EH-pfSense-35	IN	A	172.30.10.235
+EH-pfSense-36	IN	A	172.30.10.236
+EH-pfSense-37	IN	A	172.30.10.237
+EH-pfSense-38	IN	A	172.30.10.238
+EH-pfSense-39	IN	A	172.30.10.239
+EH-pfSense-40	IN	A	172.30.10.240
+EH-pfSense-41	IN	A	172.30.10.241
+EH-pfSense-42	IN	A	172.30.10.242
+EH-pfSense-43	IN	A	172.30.10.243
+EH-pfSense-44	IN	A	172.30.10.244
+EH-pfSense-45	IN	A	172.30.10.245
+EH-pfSense-46	IN	A	172.30.10.246
+EH-pfSense-47	IN	A	172.30.10.247
+EH-pfSense-48	IN	A	172.30.10.248
+EH-pfSense-49	IN	A	172.30.10.249
+EH-pfSense-50	IN	A	172.30.10.250
+
+
+monitor         IN      AAAA    2607:f380:80f:f427::10:37
+
+; Romm 828 Demos
+baby-opus	IN	A	172.30.1.31
+hpenvy4500	IN	A	172.30.1.35
+
+
+; ESXi host virtualization servers 	
+vmserver1	IN	A	192.168.0.11
+vmserver2	IN	A	192.168.0.12
+vmserver3	IN	A	192.168.0.13
+vmserver4	IN	A	192.168.0.14
+vmserver5	IN	A	192.168.0.15
+vmserver6	IN	A	192.168.0.16
+vmserver7	IN	A	192.168.0.17
+vmserver8	IN	A	192.168.0.18
+vmserver9	IN	A	192.168.0.19
+vmserver-uLab	IN	A	192.168.0.20
+vmserver-CEH	IN	A	192.168.0.21	
+
+; Cisco and Power Mgmt Network 	
+sw-830-01	IN	A	192.168.99.2
+SW-830-R5-01    IN      A       192.168.99.3
+SW-830-R4-01    IN      A       192.168.99.4
+
+UPS-R3-01       IN      A       192.168.99.40
+UPS-R4-01       IN      A       192.168.99.41
+UPS-R5-01       IN      A       192.168.99.42
+UPS-R1-01       IN      A       192.168.99.43
+
+PDU-R4-01       IN      A       192.168.99.50
+PDU-R5-01       IN      A       192.168.99.51
+
+
+; Room 828 work stations and servers
+cis-828-00	IN	A	172.30.1.100
+cis-828-01	IN	A	172.30.1.101
+cis-828-02	IN	A	172.30.1.102
+cis-828-03	IN	A	172.30.1.103
+cis-828-04	IN	A	172.30.1.104
+cis-828-05	IN	A	172.30.1.105
+cis-828-06	IN	A	172.30.1.106
+cis-828-07	IN	A	172.30.1.107
+cis-828-08	IN	A	172.30.1.108
+cis-828-09	IN	A	172.30.1.109
+cis-828-10	IN	A	172.30.1.110
+cis-828-11	IN	A	172.30.1.111
+cis-828-12	IN	A	172.30.1.112
+cis-828-13	IN	A	172.30.1.113
+cis-828-14	IN	A	172.30.1.114
+cis-828-15	IN	A	172.30.1.115
+cis-828-16	IN	A	172.30.1.116
+cis-828-17	IN	A	172.30.1.117
+cis-828-18	IN	A	172.30.1.118
+cis-828-19	IN	A	172.30.1.119
+cis-828-20	IN	A	172.30.1.120
+cis-828-21	IN	A	172.30.1.121
+cis-828-22	IN	A	172.30.1.122
+cis-828-23	IN	A	172.30.1.123
+cis-828-24	IN	A	172.30.1.124
+cis-828-25	IN	A	172.30.1.125
+cis-828-26	IN	A	172.30.1.126
+cis-828-27	IN	A	172.30.1.127
+cis-828-28	IN	A	172.30.1.128
+cis-828-29	IN	A	172.30.1.129
+cis-828-30	IN	A	172.30.1.130
+cis-828-31	IN	A	172.30.1.131
+cis-828-32	IN	A	172.30.1.132
+cis-828-33	IN	A	172.30.1.133
+cis-828-34	IN	A	172.30.1.134
+cis-828-35	IN	A	172.30.1.135
+cis-828-36	IN	A	172.30.1.136
+instructor-828	IN	CNAME	cis-828-00
+
+; Room 829 work stations
+cis-829-00	IN	A	172.20.2.100
+cis-829-01	IN	A	172.30.2.101
+cis-829-02	IN	A	172.30.2.102
+cis-829-03	IN	A	172.30.2.103
+cis-829-04	IN	A	172.30.2.104
+cis-829-05	IN	A	172.30.2.105
+cis-829-06	IN	A	172.30.2.106
+cis-829-07	IN	A	172.30.2.107
+cis-829-08	IN	A	172.30.2.108
+cis-829-09	IN	A	172.30.2.109
+cis-829-10	IN	A	172.30.2.110
+cis-829-11	IN	A	172.30.2.111
+cis-829-12	IN	A	172.30.2.112
+cis-829-13	IN	A	172.30.2.113
+cis-829-14	IN	A	172.30.2.114
+cis-829-15	IN	A	172.30.2.115
+cis-829-16	IN	A	172.30.2.116
+cis-829-17	IN	A	172.30.2.117
+cis-829-18	IN	A	172.30.2.118
+cis-829-19	IN	A	172.30.2.119
+cis-829-20	IN	A	172.30.2.120
+cis-829-21	IN	A	172.30.2.121
+cis-829-22	IN	A	172.30.2.122
+cis-829-23	IN	A	172.30.2.123
+cis-829-24	IN	A	172.30.2.124
+cis-829-25	IN	A	172.30.2.125
+cis-829-26	IN	A	172.30.2.126
+cis-829-27	IN	A	172.30.2.127
+cis-829-28	IN	A	172.30.2.128
+cis-829-29	IN	A	172.30.2.129
+cis-829-30	IN	A	172.30.2.130
+cis-829-31	IN	A	172.30.2.131
+cis-829-32	IN	A	172.30.2.132
+cis-829-33	IN	A	172.30.2.133
+cis-829-34	IN	A	172.30.2.134
+cis-829-35	IN	A	172.30.2.135
+cis-829-36	IN	A	172.30.2.136
+instructor-829	IN	CNAME	cis-828-00
+
+; Room 830 (the Lab)
+cis-lab-01	IN	A	172.20.0.101
+cis-lab-02	IN	A	172.20.0.102
+cis-lab-03	IN	A	172.20.0.103
+cis-lab-04	IN	A	172.20.0.104
+cis-lab-05	IN	A	172.20.0.105
+cis-lab-06	IN	A	172.20.0.106
+cis-lab-07	IN	A	172.20.0.107
+cis-lab-08	IN	A	172.20.0.108
+cis-lab-09	IN	A	172.20.0.109
+cis-lab-10	IN	A	172.20.0.110
+cis-lab-11	IN	A	172.20.0.111
+cis-lab-12	IN	A	172.20.0.112
+
+
+; Amazon VMs
+son-of-opus 	IN	A	54.215.232.67
+killgrave	IN	CNAME	killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
+osticket	IN	CNAME	ec2-3-92-161-73.compute-1.amazonaws.com.
+
+; Class entries 
+;
+; $INCLUDE classes/db.cis-191-ipv4
+; $INCLUDE classes/db.cis-191-ipv6
+; $INCLUDE classes/db.cis-192-ipv4
+; $INCLUDE classes/db.cis-192-ipv6
+; $INCLUDE classes/db.cis-154-ipv4
+; $INCLUDE classes/db.cis-154-ipv6
+

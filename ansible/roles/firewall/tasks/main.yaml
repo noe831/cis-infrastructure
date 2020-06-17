@@ -1,0 +1,11 @@
+
+- name: Enable the firewall 
+  become: yes
+  ufw:
+    state: enabled
+    policy: deny
+- name: Allow SSH 
+  become: yes
+  ufw:
+    rule: allow
+    name: OpenSSH

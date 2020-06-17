@@ -1,0 +1,23 @@
+$TTL	1d 
+$ORIGIN 0.168.192.in-addr.arpa.
+@		IN	SOA ns1.cis.cabrillo.edu. cis-netadmin.cabrillo.edu.  (
+                        	2017070200 ; Serial
+                        	30m      ; Refresh
+                        	15m      ; Retry
+                        	1w      ; Expire
+                        	30m      ; Minimum
+			)
+        	IN      NS      ns1.cis.cabrillo.edu.
+        	IN      NS      ns2.cis.cabrillo.edu.
+; Servers
+11       	IN      PTR     vmserver1.cis.cabrillo.edu.
+12       	IN      PTR     vmserver2.cis.cabrillo.edu.
+13       	IN      PTR     vmserver3.cis.cabrillo.edu.
+14       	IN      PTR     vmserver4.cis.cabrillo.edu.
+15       	IN      PTR     vmserver5.cis.cabrillo.edu.
+16       	IN      PTR     vmserver6.cis.cabrillo.edu.
+17       	IN      PTR     vmserver7.cis.cabrillo.edu.
+18       	IN      PTR     vmserver8.cis.cabrillo.edu.
+19       	IN      PTR     vmserver9.cis.cabrillo.edu.
+20       	IN      PTR     vmserver-uLab.cis.cabrillo.edu.
+21       	IN      PTR     vmserver-CEH.cis.cabrillo.edu.

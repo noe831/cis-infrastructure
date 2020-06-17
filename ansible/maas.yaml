@@ -1,0 +1,23 @@
+---
+- hosts: maas
+  name: Apply common configuration
+  roles:
+    - netplan 
+
+- hosts: dell-r620
+  name: Apply disk layout to R620 hosts
+  roles:
+    - lvm-r620
+
+- hosts: dell-r620-2
+  name: Setup dell-r620-2 to serve critical infrastructure.
+  roles:
+    - lxd
+    - opus
+
+- hosts: dell-r620-2
+  name: Setup dell-r620-2 to serve critical infrastructure.
+  tags:
+    - kube
+  roles:
+    - kube

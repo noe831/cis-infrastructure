@@ -1,0 +1,86 @@
+#
+# Create the opus container in LXD.
+#
+# This assumes lxd has been setup according to the lxd role.
+# Home directories will be shared with the host. 
+#
+
+- name: Create opus home directories.
+  become: yes
+  file:
+    path: /data/homes/opus
+    state: directory
+    mode: '0755'
+    owner: '100000'
+    group: '100000'
+    
+- name: Use the ubuntu user configuration from the host
+  become: yes
+  copy:
+    src: /home/ubuntu
+    dest: /data/homes/opus/
+    remote_src: yes
+    owner: '101000'
+    group: '101000'
+
+- name: Create opus netplan configuration directory.
+  become: yes
+  file:
+    path: /data/config/opus/netplan
+    state: directory
+    mode: '0755'
+
+- name: Create opus network configuration.
+  become: yes
+  blockinfile:
+    create: yes
+    path: /data/config/opus/netplan/99-static.yaml
+    block: | 
+      network:
+        ethernets:
+          eth0:
+            addresses:
+              - 172.30.5.228/24
+              - 2607:F380:80F:F425::228/64
+            gateway4: 172.30.5.1
+            nameservers:
+              search: [cis.cabrillo.edu]
+              addresses: [172.30.5.101, 172.30.5.102]
+
+- name: Check for the opus profile.
+  shell: lxc profile list | grep -q opus 
+  register: opus_profile_exists 
+  ignore_errors: True 
+  changed_when: False 
+
+- name: Create opus profile
+  shell: 
+    cmd: |
+      lxc profile create opus
+      lxc profile device add opus root disk pool=default path=/
+      lxc profile device add opus homes disk source=/data/homes/opus path=/home
+      lxc profile device add opus netplan disk source=/data/config/opus/netplan path=/etc/netplan
+      lxc profile device add opus eth0 nic name=eth0 nictype=bridged parent=server
+  when: opus_profile_exists.rc == 1 
+
+- name: Check if opus exists.
+  shell: lxc list | grep -q opus 
+  register: opus_exists 
+  ignore_errors: True 
+  changed_when: False 
+
+- name: Create opus 
+  shell:
+    cmd: | 
+      lxc launch ubuntu:18.04 opus -p opus -c security.nesting=true
+  when: opus_exists.rc == 1
+
+- name: Set max user watches so vscode works well on opus.
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: '524288'
+    state: present
+    reload: yes
+    sysctl_set: yes
+ 

@@ -1,0 +1,8 @@
+all:
+  hosts:
+    opus:
+      ansible_host: 2607:f380:80f:f425::228
+    kube:
+      ansible_host: 2607:f380:80f:f425::251
+      
+  

@@ -1,0 +1,43 @@
+# Configure CIS network fabric. 
+
+network:
+  version: 2
+
+  vlans:
+    vlan187: 
+      link: cisnet
+      id: 187
+    vlan425: 
+      link: cisnet
+      id: 425
+    vlan828: 
+      link: cisnet
+      id: 828
+    vlan829: 
+      link: cisnet
+      id: 829
+    vlan830: 
+      link: cisnet
+      id: 830
+
+  bridges:
+    external:
+      addresses: []
+      accept-ra: no
+      interfaces: [vlan187]
+    server:
+      addresses: []
+      accept-ra: no
+      interfaces: [vlan425]
+    room828:
+      addresses: []
+      accept-ra: no
+      interfaces: [vlan828]
+    room829:
+      addresses: []
+      accept-ra: no
+      interfaces: [vlan829]
+    cislab:
+      addresses: []
+      accept-ra: no
+      interfaces: [vlan830]

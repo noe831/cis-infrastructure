@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cis-dns-external
+  labels:
+    app: cis-dns-external
+spec:
+  selector:
+    matchLabels:
+      app: cis-dns-external
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cis-dns-external
+      annotations:
+    spec:
+      containers:
+      - name: cis-dns
+        image: mikematera/cis-dns:testing
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DNS_ROLE
+            value: "external"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cis-dns-internal
+  labels:
+    app: cis-dns-internal
+spec:
+  selector:
+    matchLabels:
+      app: cis-dns-internal
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cis-dns-internal
+      annotations:
+    spec:
+      containers:
+      - name: cis-dns
+        image: mikematera/cis-dns:testing
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DNS_ROLE
+            value: "internal"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi

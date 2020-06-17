@@ -1,0 +1,119 @@
+---
+- hosts: all
+  name: Apply common configuration
+  roles:
+    - firewall
+
+- hosts: opus
+  tags:
+    - opus
+  name: Packages and users.
+  become: yes
+  roles:
+    - admins
+  tasks:
+    - name: Update the package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install packages
+      package:
+        name:
+          - zsh
+          - python3-pip
+          - fontconfig
+          - docker.io
+        state: latest
+    - name: Install snaps
+      snap:
+        classic: yes
+        name:
+          - kubectl
+    - name: Allow admins to nopassword sudo 
+      blockinfile: 
+        path: /etc/sudoers.d/99-cis-users
+        create: yes
+        block: |
+          %sudo ALL=(ALL) NOPASSWD:ALL
+        
+- hosts: kube
+  tags:
+    - kube
+  name: Configure microk8s on kube
+  tasks:
+    - name: Install microk8s by snap
+      become: yes
+      snap:
+        classic: yes
+        name:
+          - microk8s
+
+    - name: Add the user ubuntu to microk8s
+      become: yes
+      user:
+        name: ubuntu
+        groups: microk8s
+        append: yes
+ 
+    - name: Reset SSH to allow ubuntu int microk8s group.
+      meta: reset_connection
+
+    - name: Check if microk8s is running.
+      shell: /snap/bin/microk8s status | grep -q "is not running" 
+      register: microk8s_running
+      ignore_errors: True 
+      changed_when: False 
+      
+    - name: Start microk8s
+      shell: /snap/bin/microk8s start 
+      when: microk8s_running.rc == 0
+    
+    - name: Enable helm3 package manager.
+      shell: |
+        /snap/bin/microk8s status | grep -q "helm3: disabled" 
+      register: microk8s_helm3
+      ignore_errors: True 
+      changed_when: False 
+      
+    - name: Enable Helm v3
+      shell: /snap/bin/microk8s enable helm3 
+      when: microk8s_helm3.rc == 0
+    
+    - name: Enable the registry.
+      shell: |
+        /snap/bin/microk8s status | grep -q "registry: disabled" 
+      register: microk8s_registry
+      ignore_errors: True 
+      changed_when: False 
+      
+    - name: Enable the registry
+      shell: /snap/bin/microk8s enable registry
+      when: microk8s_registry.rc == 0
+
+    - name: Allow traffic from micro8s cni0 interface
+      become: yes
+      ufw:
+        rule: allow
+        interface: cni0
+        direction: in
+     
+    - name: Allow traffic from micro8s cni0 interface
+      become: yes
+      ufw:
+        rule: allow
+        interface: cni0
+        direction: out
+
+    - name: Allow traffic to the Kubernetes API server
+      become: yes
+      ufw:
+        rule: allow
+        port: '16443'
+        src: 172.30.5.0/24
+        proto: tcp
+  
+    - name: Allow forwarding
+      become: yes
+      ufw:
+        rule: allow
+        route: yes
