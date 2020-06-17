@@ -7,6 +7,7 @@
 - name: Add the user mmatera
   user:
     name: mmatera
+    uid: 1001
     shell: /bin/bash
     home: /home/mmatera
     groups: adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev,docker
@@ -15,10 +16,5 @@
 - name: Add keys for mmatera
   authorized_key:
     user: mmatera
-    uid: 1001
     state: present
-    key: '{{ item }}'
-  with_file:
-    - files/keys/mmatera/mouthfeel.pub
-    - files/keys/mmatera/phoenix.pub
-    - files/keys/mmatera/turbine.pub
+    key: https://github.com/mike-matera.keys
