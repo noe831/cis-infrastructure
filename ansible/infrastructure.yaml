@@ -4,38 +4,6 @@
   roles:
     - firewall
 
-- hosts: opus
-  tags:
-    - opus
-  name: Packages and users.
-  become: yes
-  roles:
-    - admins
-  tasks:
-    - name: Update the package cache
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-    - name: Install packages
-      package:
-        name:
-          - zsh
-          - python3-pip
-          - fontconfig
-          - docker.io
-        state: latest
-    - name: Install snaps
-      snap:
-        classic: yes
-        name:
-          - kubectl
-    - name: Allow admins to nopassword sudo 
-      blockinfile: 
-        path: /etc/sudoers.d/99-cis-users
-        create: yes
-        block: |
-          %sudo ALL=(ALL) NOPASSWD:ALL
-        
 - hosts: kube
   tags:
     - kube
@@ -111,9 +79,59 @@
         port: '16443'
         src: 172.30.5.0/24
         proto: tcp
-  
+
+    - name: Allow traffic to the microk8s container registry
+      become: yes
+      ufw:
+        rule: allow
+        port: '32000'
+        src: 172.30.5.0/24
+        proto: tcp
+    
     - name: Allow forwarding
       become: yes
       ufw:
         rule: allow
         route: yes
+
+    - name: Get micro8s configuration file. 
+      delegate_to: kube
+      raw: '/snap/bin/microk8s config'
+      register: micro8s_secret
+      changed_when: False
+
+    - name: Save the kubectl config file locally. 
+      local_action: copy content={{ micro8s_secret.stdout }} dest=roles/admins/secrets/kube-config
+
+- hosts: opus
+  tags:
+    - opus
+  name: Packages and users.
+  become: yes
+  roles:
+    - admins
+  tasks:
+    - name: Update the package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install packages
+      package:
+        name:
+          - zsh
+          - python3-pip
+          - fontconfig
+          - docker.io
+        state: latest
+    - name: Install snaps
+      snap:
+        classic: yes
+        name:
+          - kubectl
+    - name: Allow admins to nopassword sudo 
+      blockinfile: 
+        path: /etc/sudoers.d/99-cis-users
+        create: yes
+        block: |
+          %sudo ALL=(ALL) NOPASSWD:ALL
+        

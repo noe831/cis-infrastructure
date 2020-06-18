@@ -5,6 +5,7 @@
 #
 
 - name: Add the user mmatera
+  become: yes
   user:
     name: mmatera
     uid: 1001
@@ -14,7 +15,25 @@
     append: yes
 
 - name: Add keys for mmatera
+  become: yes
   authorized_key:
     user: mmatera
     state: present
     key: https://github.com/mike-matera.keys
+
+- name: Create kubernetes directory
+  file:
+    path: /home/mmatera/.kube
+    state: directory
+    owner: mmatera
+    group: mmatera
+    mode: '0700'
+
+- name: Add kubernetes configuration for mmatera
+  become: yes
+  copy:
+    src: secrets/kube-config
+    dest: /home/mmatera/.kube/config 
+    owner: mmatera
+    group: mmatera
+    mode: '600'
