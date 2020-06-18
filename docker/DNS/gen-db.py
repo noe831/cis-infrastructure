@@ -23,7 +23,7 @@ def reverse(hosts, network):
 						hostaddr = str(ip).split('.')[3]
 					else:
 						hostaddr = '.'.join(reversed(ip.exploded.replace(':', '')[16:]))
-					rval += f"{hostaddr} IN PTR {host}\n"	
+					rval += f"{hostaddr} IN PTR {host}.cis.cabrillo.edu.\n"	
 			except:
 				"""not an IP address""" 
 
