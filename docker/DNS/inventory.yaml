@@ -1,6 +1,6 @@
 ---
 
-serial: "01"
+serial: "02"
 
 ttl: |
   $TTL 1h
@@ -53,9 +53,32 @@ hosts:
     - 172.30.5.228
     - 2607:f380:80f:f425::228
   
-  oslab:
-    - opus 
+  jeff:
+    - 207.62.187.233
+    - 172.30.5.24
+    - 2607:f380:80f:f425::233
+  
+  ed:
+    - 207.62.187.234
+    - 172.30.5.26
+    - 2607:f380:80f:f425::234
 
+  vc-infra:
+    - 172.30.5.32
+
+  slinky:
+    - 172.30.5.40
+    - 2607:f380:80f:f425::40
+
+  matera:
+    - 172.30.5.41
+
+  irvinmac:
+    - 172.30.5.45
+
+  rack0: 
+    - 192.168.0.254
+  
   killgrave:
     - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
 
