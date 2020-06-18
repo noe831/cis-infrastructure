@@ -13,8 +13,8 @@ spec:
       port: 53
       protocol: UDP 
   externalIPs:
-    - 172.30.5.250
-    - 172.30.5.251
+    - 172.30.5.252
+    - 172.30.5.253
 ---
 apiVersion: v1
 kind: Service

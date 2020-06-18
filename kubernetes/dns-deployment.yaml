@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
       - name: cis-dns-external
-        image: mikematera/cis-dns:test5
-        imagePullPolicy: Always
+        image: mikematera/cis-dns:2020061802
+        imagePullPolicy: IfNotPresent
         env:
           - name: DNS_ROLE
             value: "external"
@@ -50,8 +50,8 @@ spec:
     spec:
       containers:
       - name: cis-dns-internal
-        image: mikematera/cis-dns:test5
-        imagePullPolicy: Always
+        image: mikematera/cis-dns:2020061802
+        imagePullPolicy: IfNotPresent
         env:
           - name: DNS_ROLE
             value: "internal"
