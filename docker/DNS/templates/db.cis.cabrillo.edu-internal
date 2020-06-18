@@ -2,6 +2,10 @@
 {{ soa }}
 {{ ns }}
 
+; Glue records for forward zones 
+cislab.net IN NS slinky.cis.cabrillo.edu. 
+maas IN NS rack0.cis.cabrillo.edu. 
+
 {{ mx }}
 {{ txt }}
 {{ misc }}
