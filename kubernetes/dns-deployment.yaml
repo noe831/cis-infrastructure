@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: cis-dns
-  replicas: 1
+  replicas: 3
   strategy:
     type: Recreate
   template:
@@ -20,7 +20,7 @@ spec:
       containers:
       - name: cis-dns
         image: mikematera/cis-dns:testing
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
           - name: DNS_ROLE
             value: "external"
