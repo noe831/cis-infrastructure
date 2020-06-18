@@ -65,12 +65,12 @@ def main():
 			template = jinja2.Template(f.read())	
 			output = "build/" + pathlib.Path(templfile).name
 			with open(output, 'w') as of:
-				of.write(template.render(inv, 
+				rendered = template.render(inv, 
 						reverse=reverse,
 						fwd=fwd,
 					)
-				) 
-
+				of.write(rendered)
+				print(rendered)
 
 if __name__ == '__main__':
 	main()

@@ -10,8 +10,9 @@ FROM ubuntu:focal
 
 RUN apt-get update -q -y && apt-get upgrade -y && apt-get install -y -q bind9
 
+RUN rm -f /etc/bind/named.conf
 COPY --chown=bind:bind --from=builder build/db.* /etc/bind/
-COPY --chown=bind:bind source/named.conf /etc/bind/
+COPY --chown=bind:bind source/named*.conf /etc/bind/
 COPY source/entrypoint.sh /
 
 EXPOSE 53/udp 

@@ -45,14 +45,16 @@ hosts:
   
   pengo:
     - 207.62.187.229
+    - 172.30.5.43
     - 2607:f380:80f:f425::229
 
   opus:
     - 207.62.187.228
+    - 172.30.5.228
     - 2607:f380:80f:f425::228
   
   oslab:
-    - oslab 
+    - opus 
 
   killgrave:
     - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
