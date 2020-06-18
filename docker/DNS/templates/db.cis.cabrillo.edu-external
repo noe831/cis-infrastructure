@@ -1,0 +1,9 @@
+{{ ttl }}
+{{ soa }}
+{{ ns }}
+
+{{ mx }}
+{{ txt }}
+{{ misc }}
+
+{{ fwd(hosts=hosts, role='external') }}

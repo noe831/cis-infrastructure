@@ -1,0 +1,4 @@
+{{ ttl }}
+{{ soa }}
+{{ ns }}
+{{ reverse(hosts=hosts, network='172.30.5.0/24') }}

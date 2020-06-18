@@ -1,12 +1,18 @@
+FROM python:3.8 as builder 
+WORKDIR /
+RUN pip install pyyaml jinja2
+COPY templates/* /templates/
+COPY inventory.yaml / 
+COPY gen-db.py / 
+RUN ["python", "gen-db.py"]  
+
 FROM ubuntu:focal 
 
 RUN apt-get update -q -y && apt-get upgrade -y && apt-get install -y -q bind9
 
-COPY --chown=bind:bind source/external/* /etc/bind/external/
-COPY --chown=bind:bind source/internal/* /etc/bind/internal/
-COPY --chown=bind:bind source/common/* /etc/bind/common/
-COPY --chown=bind:bind source/named*.conf /etc/bind/
-COPY --chown=root:root source/entrypoint.sh / 
+COPY --chown=bind:bind --from=builder build/db.* /etc/bind/
+COPY --chown=bind:bind source/named.conf /etc/bind/
+COPY source/entrypoint.sh /
 
 EXPOSE 53/udp 
 
