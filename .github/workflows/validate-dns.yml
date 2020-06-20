@@ -24,4 +24,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: /bin/sh ./test.sh
+      run: |
+        cd docker/DNS
+        /bin/sh ./test.sh
