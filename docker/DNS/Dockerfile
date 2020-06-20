@@ -6,10 +6,10 @@ COPY inventory.yaml /
 COPY gen-db.py / 
 RUN ["python", "gen-db.py"]  
 
-FROM ubuntu:focal as tester
+FROM builder as tester
 WORKDIR /
-RUN apt-get update -q -y && DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3-pip dnsutils 
-RUN pip3 install pyyaml pydig
+RUN apt-get update -q -y && DEBIAN_FRONTEND=noninteractive apt-get install -y -q dnsutils 
+RUN pip3 install pydig
 COPY inventory.yaml / 
 COPY test.py /   
 CMD ["python3", "test.py"]  
