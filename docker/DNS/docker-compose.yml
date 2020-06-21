@@ -1,0 +1,25 @@
+#
+# Compose a system for integration testing. 
+# 
+
+version: '3.4'
+services:
+  external:
+    build: 
+      context: . 
+      target: main
+    environment: 
+      - DNS_ROLE=external
+  internal:
+    build: 
+      context: . 
+      target: main
+    environment: 
+      - DNS_ROLE=internal
+  test:
+    build: 
+      context: . 
+      target: tester 
+    depends_on: 
+      - internal
+      - external

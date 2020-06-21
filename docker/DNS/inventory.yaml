@@ -79,9 +79,8 @@ hosts:
   rack0: 
     - 192.168.0.254
   
-  killgrave:
-    - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
-
-  osticket:
-    - ec2-3-92-161-73.compute-1.amazonaws.com.
-  
+#  killgrave:
+#    - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
+#
+#  osticket:
+#    - ec2-3-92-161-73.compute-1.amazonaws.com.
