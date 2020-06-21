@@ -10,7 +10,7 @@ spec:
       app: cis-dns-external
   replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cis-dns-external
-        image: mikematera/cis-dns:2020061802
+        image: mikematera/cis-dns:2020061901
         imagePullPolicy: IfNotPresent
         env:
           - name: DNS_ROLE
@@ -41,7 +41,7 @@ spec:
       app: cis-dns-internal
   replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: cis-dns-internal
-        image: mikematera/cis-dns:2020061802
+        image: mikematera/cis-dns:2020061901
         imagePullPolicy: IfNotPresent
         env:
           - name: DNS_ROLE
