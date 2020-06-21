@@ -82,11 +82,11 @@ class TestDNS(unittest.TestCase):
 				self.assertEqual(str(addr), got[0], "Resolution mismatch {host} != {got[0]}")
 
 				# Test the reverse record 
-				if addr.version == 6:
-					# Can't test reverse public ipv4 records without the weird delegation domains.
-					got = self.ext_resolver.query(rev_record, 'PTR')
-					self.assertGreater(len(got), 0, f"Failed to reverse {host} {rev_record}")	
-					self.assertEqual(host + ".cis.cabrillo.edu.", got[0], "Reverse resolution mismatch {host} != {got[0]}")
+				# Have to mangle this record to match the funky CNAME used in reversing this subnet. 
+				rev_record = rev_record.replace('187.', '224-27.187.')
+				got = self.ext_resolver.query(rev_record, 'PTR')
+				self.assertGreater(len(got), 0, f"Failed to reverse {host} {rev_record}")	
+				self.assertEqual(host + ".cis.cabrillo.edu.", got[0], "Reverse resolution mismatch {host} != {got[0]}")
 
 	def test_internal_domains(self):
 		for zone in ["cis.cabrillo.edu", 
