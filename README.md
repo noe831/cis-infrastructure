@@ -7,7 +7,7 @@ Infrastructure for the CIS Datacenter
 ## Contents 
 
  - `/ansible` - Playbooks to deploy servers
- - `/docker` - Container recipes 
+ - `/DNS` - Resources for building DNS containers.  
  - `/kubernetes` - Deployment resources 
 
 ## Infrastructure 
