@@ -11,13 +11,19 @@
 
 - hosts: dell-r620-2
   name: Setup dell-r620-2 to serve critical infrastructure.
+  tags:
+    - opus
+    - kube
   roles:
     - lxd
     - opus
+    - kube
 
-- hosts: dell-r620-2
-  name: Setup dell-r620-2 to serve critical infrastructure.
+- hosts: dell-r620-1
+  name: Setup dell-r620-1 to serve jupyter hub.
   tags:
-    - kube
+    - jupyter
   roles:
-    - kube
+    - lxd
+    - jupyter
+

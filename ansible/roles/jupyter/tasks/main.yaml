@@ -1,0 +1,86 @@
+#
+# Create the jupyter container in LXD.
+#
+# This assumes lxd has been setup according to the lxd role.
+# Home directories will be shared with the host. 
+#
+
+- name: Create jupyter home directories.
+  become: yes
+  file:
+    path: /data/homes/jupyter
+    state: directory
+    mode: '0755'
+    owner: '100000'
+    group: '100000'
+    
+- name: Use the ubuntu user configuration from the host
+  become: yes
+  copy:
+    src: /home/ubuntu
+    dest: /data/homes/jupyter/
+    remote_src: yes
+    owner: '101000'
+    group: '101000'
+
+- name: Create jupyter netplan configuration directory.
+  become: yes
+  file:
+    path: /data/config/jupyter/netplan
+    state: directory
+    mode: '0755'
+
+- name: Create jupyter network configuration.
+  become: yes
+  blockinfile:
+    create: yes
+    path: /data/config/jupyter/netplan/99-static.yaml
+    block: | 
+      network:
+        ethernets:
+          eth0:
+            addresses:
+              - 172.30.5.230/24
+              - 2607:F380:80F:F425::230/64
+            gateway4: 172.30.5.1
+            nameservers:
+              search: [cis.cabrillo.edu]
+              addresses: [172.30.5.101, 172.30.5.102]
+
+- name: Check for the jupyter profile.
+  shell: /snap/bin/lxc profile list | grep -q jupyter 
+  register: jupyter_profile_exists 
+  ignore_errors: True 
+  changed_when: False 
+
+- name: Create jupyter profile
+  shell: 
+    cmd: |
+      /snap/bin/lxc profile create jupyter
+      /snap/bin/lxc profile device add jupyter root disk pool=default path=/
+      /snap/bin/lxc profile device add jupyter homes disk source=/data/homes/jupyter path=/home
+      /snap/bin/lxc profile device add jupyter netplan disk source=/data/config/jupyter/netplan path=/etc/netplan
+      /snap/bin/lxc profile device add jupyter eth0 nic name=eth0 nictype=bridged parent=server
+  when: jupyter_profile_exists.rc == 1 
+
+- name: Check if jupyter exists.
+  shell: /snap/bin/lxc list | grep -q jupyter 
+  register: jupyter_exists 
+  ignore_errors: True 
+  changed_when: False 
+
+- name: Create jupyter 
+  shell:
+    cmd: | 
+      /snap/bin/lxc launch ubuntu:20.04 jupyter -p jupyter -c security.nesting=true
+  when: jupyter_exists.rc == 1
+
+- name: Set max user watches so vscode works well on jupyter.
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: '524288'
+    state: present
+    reload: yes
+    sysctl_set: yes
+ 

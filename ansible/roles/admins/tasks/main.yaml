@@ -22,6 +22,7 @@
     key: https://github.com/mike-matera.keys
 
 - name: Create kubernetes directory
+  become: yes
   file:
     path: /home/mmatera/.kube
     state: directory
