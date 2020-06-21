@@ -3,13 +3,17 @@ Execute self-tests for DNS containers.
 
 """
 
+import glob
 import yaml 
 import pydig 
 import unittest
 import ipaddress
 
-with open('inventory.yaml') as f:
-	inv = yaml.load(f, Loader=yaml.Loader)
+inv = {}
+for source in sorted(glob.glob('source/*.yaml')):
+	print(f"Loading {source}")
+	with open(source) as f:
+		inv.update(yaml.load(f, Loader=yaml.Loader))
 
 class TestDNS(unittest.TestCase):
 
@@ -78,9 +82,11 @@ class TestDNS(unittest.TestCase):
 				self.assertEqual(str(addr), got[0], "Resolution mismatch {host} != {got[0]}")
 
 				# Test the reverse record 
-				got = self.ext_resolver.query(rev_record, 'PTR')
-				self.assertGreater(len(got), 0, f"Failed to reverse {host} {rev_record}")	
-				self.assertEqual(host + ".cis.cabrillo.edu.", got[0], "Reverse resolution mismatch {host} != {got[0]}")
+				if addr.version == 6:
+					# Can't test reverse public ipv4 records without the weird delegation domains.
+					got = self.ext_resolver.query(rev_record, 'PTR')
+					self.assertGreater(len(got), 0, f"Failed to reverse {host} {rev_record}")	
+					self.assertEqual(host + ".cis.cabrillo.edu.", got[0], "Reverse resolution mismatch {host} != {got[0]}")
 
 	def test_internal_domains(self):
 		for zone in ["cis.cabrillo.edu", 
@@ -101,7 +107,7 @@ class TestDNS(unittest.TestCase):
 
 	def test_external_domains(self):
 		for zone in ["cis.cabrillo.edu", 
-				"187.62.207.in-addr.arpa",
+				"224-27.187.62.207.in-addr.arpa",
 				"5.2.4.f.f.0.8.0.0.8.3.f.7.0.6.2.ip6.arpa",
 			]:
 			got = self.ext_resolver.query(zone, 'SOA')

@@ -2,7 +2,7 @@ FROM python:3.8 as builder
 WORKDIR /
 RUN pip install pyyaml jinja2
 COPY templates/* /templates/
-COPY inventory.yaml / 
+COPY source/*.yaml /source/
 COPY gen-db.py / 
 RUN ["python", "gen-db.py"]  
 
@@ -10,7 +10,6 @@ FROM builder as tester
 WORKDIR /
 RUN apt-get update -q -y && DEBIAN_FRONTEND=noninteractive apt-get install -y -q dnsutils 
 RUN pip3 install pydig
-COPY inventory.yaml / 
 COPY test.py /   
 CMD ["python3", "test.py"]  
 

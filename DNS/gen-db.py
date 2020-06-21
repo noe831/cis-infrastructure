@@ -50,9 +50,11 @@ def fwd(hosts, role):
 
 
 def main():
-	print("Loading inventory.yaml")
-	with open('inventory.yaml') as f:
-		inv = yaml.load(f, Loader=yaml.Loader)
+	inv = {}
+	for source in sorted(glob.glob('source/*.yaml')):
+		print(f"Loading {source}")
+		with open(source) as f:
+			inv.update(yaml.load(f, Loader=yaml.Loader))
 
 	now = datetime.datetime.now()
 	inv['soa'] = inv['soa'].format(serial=f'{now:%Y%m%d}{inv["serial"]}')
