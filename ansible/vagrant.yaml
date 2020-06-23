@@ -2,15 +2,21 @@
 - hosts: all
   vars:
     primary_interface: enp0s8
-    ssd_physical: /dev/sdc 
-    disk_physical: /dev/sdd
-    vg_disk_pool_size: 64 
-    vg_disk_home_size: 32
 
-  name: Test configuration
+  name: Setup networking for testing configuration. 
   roles:
     - netplan 
+    
+- hosts: all
+  vars:
+    ssd_physical: /dev/sdc 
+    disk_physical: /dev/sdd
+    vg_disk_pool_size: 16 
+    vg_disk_home_size: 16
+
+  name: Setup testing configuration.
+  become: yes
+  roles:
     - lvm-vagrant
     - lxd
-    - opus
-    - kube
+    - jupyter

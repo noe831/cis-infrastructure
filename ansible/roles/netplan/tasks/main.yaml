@@ -23,4 +23,5 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
-  notify: netplan apply 
+  notify: 
+    - netplan apply

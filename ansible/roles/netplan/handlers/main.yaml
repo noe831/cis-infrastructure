@@ -1,3 +1,5 @@
+
 - name: netplan apply 
-  command: netplan apply
   become: yes
+  shell: netplan apply
+
