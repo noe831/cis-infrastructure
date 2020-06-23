@@ -5,19 +5,19 @@ network:
 
   vlans:
     vlan187: 
-      link: cisnet
+      link: {{ primary_interface }}
       id: 187
     vlan425: 
-      link: cisnet
+      link: {{ primary_interface }}
       id: 425
     vlan828: 
-      link: cisnet
+      link: {{ primary_interface }}
       id: 828
     vlan829: 
-      link: cisnet
+      link: {{ primary_interface }}
       id: 829
     vlan830: 
-      link: cisnet
+      link: {{ primary_interface }}
       id: 830
 
   bridges:

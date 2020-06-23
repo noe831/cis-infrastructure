@@ -1,0 +1,33 @@
+#
+# This task configures a Vagrant box with two LVM volume groups.
+#
+# The assumed disk layout from Vagrant is:
+#
+# /dev/sda - The system disk - not touched
+# /dev/sdb - empty
+# /dev/sdc - empty
+#
+# This role will create the following LVM layout:
+#
+# /dev/vg-ssd - Volume group with SSD space
+# /dev/vg-disk - Volume group with HDD space
+#
+
+- name: Create the SSD volume group. 
+  become: yes
+  lvg:
+    vg: vg-ssd
+    pvs: [ "{{ ssd_physical }}" ]
+
+- name: Create the DISK volume group. 
+  become: yes
+  lvg:
+    vg: vg-disk
+    pvs: [ "{{ disk_physical }}" ]
+
+- name: Install tools for thin provisioning
+  become: yes
+  package:
+    name:
+      - thin-provisioning-tools
+    state: latest

@@ -19,12 +19,16 @@
 # After this role xld will be installed and initialized and the ubuntu
 # user will be placed into the lxd group.
 #
+# The host must have the following variables:
+#
+# vg_disk_pool_size: Size of the disk area in GB 
+# vg_disk_home_size: Size of home directories in GB 
 
 - name: Create a thin pool for application data. 
   become: yes
   lvol:
     vg: vg-disk
-    size: 550g
+    size: "{{ vg_disk_pool_size }}g"
     thinpool: application-pool
 
 - name: Create a volume for home directories.
@@ -33,7 +37,7 @@
     vg: vg-disk
     lv: home-data
     thinpool: application-pool
-    size: 128g
+    size: "{{ vg_disk_home_size }}g"
 
 - name: Create a ext4 filesystem for home directories.
   become: yes
@@ -62,10 +66,22 @@
     name:
       - lxd
 
+- name: remove the LXD package
+  become: yes
+  apt:
+    name: lxd
+    state: absent
+    purge: yes 
+
+- name: Remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
 - name: Initialize LXD 
   become: yes
   shell: 
-    cmd: lxd init --preseed
+    cmd: /snap/bin/lxd init --preseed
     stdin: |
       config: {}
       networks: []
@@ -80,17 +96,17 @@
     state: directory
     mode: '0755'
 
-- name: Add the ubuntu user to lxd
+- name: Add the ansible user to lxd
   become: yes
   user:
-    name: ubuntu
+    name: "{{ ansible_user }}"
     groups: lxd
     append: yes
 
 - meta: reset_connection 
 
 - name: Check for the default storage pool.
-  shell: lxc storage list | grep -q default
+  shell: /snap/bin/lxc storage list | grep -q default
   register: ssd_exists 
   ignore_errors: True 
   changed_when: False 
@@ -98,5 +114,5 @@
 - name: Add the default storage pool
   become: yes
   shell:
-    cmd: lxc storage create default lvm source=vg-ssd lvm.thinpool_name=lxd-ssd-thinpool lvm.use_thinpool=true
+    cmd: /snap/bin/lxc storage create default lvm source=vg-ssd lvm.thinpool_name=lxd-ssd-thinpool lvm.use_thinpool=true
   when: ssd_exists.rc == 1 
