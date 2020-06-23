@@ -60,7 +60,7 @@
       /snap/bin/lxc profile device add jupyter root disk pool=default path=/
       /snap/bin/lxc profile device add jupyter homes disk source=/data/homes/jupyter path=/home
       /snap/bin/lxc profile device add jupyter netplan disk source=/data/config/jupyter/netplan path=/etc/netplan
-      /snap/bin/lxc profile device add jupyter eth0 nic name=eth0 nictype=bridged parent=server
+      /snap/bin/lxc profile device add jupyter eth0 nic name=eth0 nictype=bridged parent=server hwaddr=00:11:22:33:44:55
   when: jupyter_profile_exists.rc == 1 
 
 - name: Check if jupyter exists.

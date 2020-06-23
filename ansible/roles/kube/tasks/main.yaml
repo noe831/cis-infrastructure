@@ -56,7 +56,7 @@
   become: true
   copy:
     src: files/kube-hashsize.sh
-    dest: /var/lib/lxc-kube-hashsize.sh
+    dest: /var/snap/lxd/common/lxc/lxc-kube-hashsize.sh
     mode: '755'
     owner: root
     group: root
@@ -81,7 +81,7 @@
           lxc.mount.auto=proc:rw sys:rw cgroup:rw
           lxc.cgroup.devices.allow=a
           lxc.cap.drop=
-          lxc.hook.pre-start=/var/lib/lxc-kube-hashsize.sh
+          lxc.hook.pre-start=/var/snap/lxd/common/lxc/lxc-kube-hashsize.sh
         security.nesting: "true"
         security.privileged: "true"
       description: ""
@@ -111,7 +111,7 @@
       lxc profile device add kube root disk pool=default path=/
       lxc profile device add kube homes disk source=/data/homes/kube path=/home
       lxc profile device add kube netplan disk source=/data/config/kube/netplan path=/etc/netplan
-      lxc profile device add kube eth0 nic name=eth0 nictype=bridged parent=server
+      lxc profile device add kube eth0 nic name=eth0 nictype=bridged parent=server hwaddr=00:16:3e:1f:36:a2
   when: kube_profile_exists.rc == 1 
 
 - name: Check if kube exists.
