@@ -1,0 +1,23 @@
+---
+# 
+# Playbook for the Dell R620-1 Machine
+#
+# This machine is deployed by MAAS and hosts the jupyter container. 
+#
+
+- hosts: dell-r620-1
+  name: Apply common configuration
+  roles:
+    - netplan 
+
+- hosts: dell-r620-1
+  name: Apply disk layout to R620 hosts
+  roles:
+    - lvm-r620
+
+- hosts: dell-r620-1
+  name: Setup dell-r620-1 to serve jupyter hub.
+  roles:
+    - lxd
+    - jupyter
+

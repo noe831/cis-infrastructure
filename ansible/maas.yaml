@@ -1,29 +1,4 @@
 ---
-- hosts: maas
-  name: Apply common configuration
-  roles:
-    - netplan 
 
-- hosts: dell-r620
-  name: Apply disk layout to R620 hosts
-  roles:
-    - lvm-r620
-
-- hosts: dell-r620-2
-  name: Setup dell-r620-2 to serve critical infrastructure.
-  tags:
-    - opus
-    - kube
-  roles:
-    - lxd
-    - opus
-    - kube
-
-- hosts: dell-r620-1
-  name: Setup dell-r620-1 to serve jupyter hub.
-  tags:
-    - jupyter
-  roles:
-    - lxd
-    - jupyter
-
+- import_playbook: dell-r620-1.yaml
+- import_playbook: dell-r620-2.yaml
