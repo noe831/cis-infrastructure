@@ -1,12 +1,10 @@
 #
 # This task configures the Dell R620s with two LVM volume groups.
 #
-# The assumed disk layout from MAAS is:
+# Host variable must define two devices:
 #
-# /dev/sda - SSD array
-# /dev/sda1 - The root filesystem (ext4)
-# /dev/sda2 - Created and empty
-# /dev/sdb - HDD array (empty)
+# device_ssd - A block device to setup the SSD pool with 
+# device_hdd - A block device to setup the DISK pool with 
 #
 # This role will create the following LVM layout:
 #
@@ -14,30 +12,17 @@
 # /dev/vg-disk - Volume group with HDD space
 #
 
-- name: Create a partition table on /dev/sdb
-  become: yes
-  parted:
-    device: /dev/sdb
-
-- name: Create /dev/sdb1 
-  become: yes
-  parted:
-    device: /dev/sdb
-    number: 1
-    flags: [ lvm ]
-    state: present
-
 - name: Create the SSD volume group. 
   become: yes
   lvg:
     vg: vg-ssd
-    pvs: /dev/sda2
+    pvs: "{{ device_ssd }}"
 
 - name: Create the DISK volume group. 
   become: yes
   lvg:
     vg: vg-disk
-    pvs: /dev/sdb1 
+    pvs: "{{ device_hdd }}"
 
 - name: Install tools for thin provisioning
   become: yes
