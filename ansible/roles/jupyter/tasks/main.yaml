@@ -11,8 +11,8 @@
     path: /data/homes/jupyter
     state: directory
     mode: '0755'
-    owner: '100000'
-    group: '100000'
+    owner: '1000000'
+    group: '1000000'
     
 - name: Use the ubuntu user configuration from the host
   become: yes
@@ -20,8 +20,8 @@
     src: /home/ubuntu
     dest: /data/homes/jupyter/
     remote_src: yes
-    owner: '101000'
-    group: '101000'
+    owner: '1001000'
+    group: '1001000'
 
 - name: Create jupyter netplan configuration directory.
   become: yes

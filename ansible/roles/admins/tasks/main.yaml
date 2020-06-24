@@ -11,7 +11,7 @@
     uid: 1001
     shell: /bin/bash
     home: /home/mmatera
-    groups: adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev,docker
+    groups: adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev
     append: yes
 
 - name: Add keys for mmatera
@@ -38,3 +38,10 @@
     owner: mmatera
     group: mmatera
     mode: '600'
+
+- name: Add the admin to passwordless SUDO 
+  become: yes
+  blockinfile: 
+    path: /etc/sudoers.d/90-cloud-init-users
+    block: |
+      mmatera ALL=(ALL) NOPASSWD:ALL
