@@ -58,69 +58,11 @@
     interface: cni0
     direction: out
 
-- name: Allow traffic to the Kubernetes API server
+- name: Allow traffic from the server network.
   become: yes
   ufw:
     rule: allow
-    port: '16443'
     src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to the Kubernetes API server
-  become: yes
-  ufw:
-    rule: allow
-    port: '16443'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to kubelet
-  become: yes
-  ufw:
-    rule: allow
-    port: '10250'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to kubelet
-  become: yes
-  ufw:
-    rule: allow
-    port: '10255'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to the Kubernetes cluster agent
-  become: yes
-  ufw:
-    rule: allow
-    port: '25000'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to  etcd
-  become: yes
-  ufw:
-    rule: allow
-    port: '12379'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to kube-controller
-  become: yes
-  ufw:
-    rule: allow
-    port: '10257'
-    src: 172.30.5.0/24
-    proto: tcp
-
-- name: Allow traffic to kube-controller
-  become: yes
-  ufw:
-    rule: allow
-    port: '10259'
-    src: 172.30.5.0/24
-    proto: tcp
 
 - name: Allow forwarding
   become: yes
