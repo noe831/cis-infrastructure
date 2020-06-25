@@ -11,13 +11,29 @@
     - netplan 
 
 - hosts: dell-r620-1
-  name: Apply disk layout to R620 hosts
+  name: Apply disk layout to R620 hosts and setup LXD
   roles:
     - lvm-r620
+    - lxd
 
 - hosts: dell-r620-1
   name: Setup dell-r620-1 to serve jupyter hub.
-  roles:
-    - lxd
+  tags:
     - jupyter
+  roles:
+    - jupyter
+
+- hosts: dell-r620-1
+  name: Setup dell-r620-1 as a kube server
+  vars: 
+    external_address_list: 
+      - 172.30.5.253/24 
+      - 172.30.5.102/24
+      - 2607:F380:80F:F425::253/64
+      - 2607:F380:80F:F425::102/64
+    external_mac_addr: 00:16:3e:1f:36:a3
+  tags:
+    - kube
+  roles:
+    - kube
 

@@ -2,115 +2,10 @@
 
 - hosts: all
   name: Apply common configuration
+  tags:
+    - firewall
   roles:
     - firewall
-
-# 
-# Deploy kubernetes in microk8s. 
-#
-# This must be done first because it provides DNS and because
-# credentials are created here that get passed to admins on 
-# opus. 
-#
-
-- hosts: kube
-  tags:
-    - kube
-  name: Configure microk8s on kube
-  tasks:
-    - name: Install microk8s by snap
-      become: yes
-      snap:
-        classic: yes
-        name:
-          - microk8s
-
-    - name: Add the user ubuntu to microk8s
-      become: yes
-      user:
-        name: ubuntu
-        groups: microk8s
-        append: yes
- 
-    - name: Reset SSH to allow ubuntu int microk8s group.
-      meta: reset_connection
-
-    - name: Check if microk8s is running.
-      shell: /snap/bin/microk8s status | grep -q "is not running" 
-      register: microk8s_running
-      ignore_errors: True 
-      changed_when: False 
-      
-    - name: Start microk8s
-      shell: /snap/bin/microk8s start 
-      when: microk8s_running.rc == 0
-    
-    - name: Enable helm3 package manager.
-      shell: |
-        /snap/bin/microk8s status | grep -q "helm3: disabled" 
-      register: microk8s_helm3
-      ignore_errors: True 
-      changed_when: False 
-      
-    - name: Enable Helm v3
-      shell: /snap/bin/microk8s enable helm3 
-      when: microk8s_helm3.rc == 0
-    
-    - name: Enable the registry.
-      shell: |
-        /snap/bin/microk8s status | grep -q "registry: disabled" 
-      register: microk8s_registry
-      ignore_errors: True 
-      changed_when: False 
-      
-    - name: Enable the registry
-      shell: /snap/bin/microk8s enable registry
-      when: microk8s_registry.rc == 0
-
-    - name: Allow traffic from micro8s cni0 interface
-      become: yes
-      ufw:
-        rule: allow
-        interface: cni0
-        direction: in
-     
-    - name: Allow traffic from micro8s cni0 interface
-      become: yes
-      ufw:
-        rule: allow
-        interface: cni0
-        direction: out
-
-    - name: Allow traffic to the Kubernetes API server
-      become: yes
-      ufw:
-        rule: allow
-        port: '16443'
-        src: 172.30.5.0/24
-        proto: tcp
-
-    - name: Allow traffic to the microk8s container registry
-      become: yes
-      ufw:
-        rule: allow
-        port: '32000'
-        src: 172.30.5.0/24
-        proto: tcp
-    
-    - name: Allow forwarding
-      become: yes
-      ufw:
-        rule: allow
-        route: yes
-
-    - name: Get micro8s configuration file. 
-      delegate_to: kube
-      raw: '/snap/bin/microk8s config'
-      register: micro8s_secret
-      changed_when: False
-
-    - name: Save the kubectl config file locally. 
-      local_action: copy content={{ micro8s_secret.stdout }} dest=roles/admins/secrets/kube-config
 
 #
 # Configure opus our main login server. 
@@ -292,3 +187,17 @@
           export PATH="/snap/bin:$PATH"
           jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
+    - name: Allow HTTP
+      become: yes
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+            
+    - name: Allow HTTPs
+      become: yes
+      ufw:
+        rule: allow
+        port: '443'
+        proto: tcp
+    

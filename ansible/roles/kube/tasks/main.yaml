@@ -37,19 +37,11 @@
       network:
         ethernets:
           eth0:
-            addresses:
-              - 172.30.5.252/24
-              - 172.30.5.253/24
-              - 172.30.5.101/24
-              - 172.30.5.102/24
-              - 2607:F380:80F:F425::250/64
-              - 2607:F380:80F:F425::251/64
-              - 2607:F380:80F:F425::101/64
-              - 2607:F380:80F:F425::102/64
+            addresses: {{ external_address_list | to_yaml }} 
             gateway4: 172.30.5.1
             nameservers:
               search: [cis.cabrillo.edu]
-              addresses: [172.30.5.101, 172.30.5.102]
+              addresses: [8.8.8.8, 8.8.4.4]
 
 # Fix for: https://github.com/corneliusweig/kubernetes-lxd/issues/10
 - name: Add startup hook to increase conntrack hashsize
@@ -62,7 +54,7 @@
     group: root
 
 - name: Check for the kube profile.
-  shell: lxc profile list | grep -q kube 
+  shell: /snap/bin/lxc profile list | grep -q kube 
   register: kube_profile_exists 
   ignore_errors: True 
   changed_when: False 
@@ -106,16 +98,16 @@
 - name: Create kube profile
   shell: 
     cmd: |
-      lxc profile create kube
-      lxc profile edit kube < /tmp/kube-profile.yaml
-      lxc profile device add kube root disk pool=default path=/
-      lxc profile device add kube homes disk source=/data/homes/kube path=/home
-      lxc profile device add kube netplan disk source=/data/config/kube/netplan path=/etc/netplan
-      lxc profile device add kube eth0 nic name=eth0 nictype=bridged parent=server hwaddr=00:16:3e:1f:36:a2
+      /snap/bin/lxc profile create kube
+      /snap/bin/lxc profile edit kube < /tmp/kube-profile.yaml
+      /snap/bin/lxc profile device add kube root disk pool=default path=/
+      /snap/bin/lxc profile device add kube homes disk source=/data/homes/kube path=/home
+      /snap/bin/lxc profile device add kube netplan disk source=/data/config/kube/netplan path=/etc/netplan
+      /snap/bin/lxc profile device add kube eth0 nic name=eth0 nictype=bridged parent=server hwaddr={{ external_mac_addr }} 
   when: kube_profile_exists.rc == 1 
 
 - name: Check if kube exists.
-  shell: lxc list | grep -q kube 
+  shell: /snap/bin/lxc list | grep -q kube 
   register: kube_exists 
   ignore_errors: True 
   changed_when: False 
@@ -123,5 +115,5 @@
 - name: Create kube 
   shell:
     cmd: | 
-      lxc launch ubuntu:18.04 kube -p kube 
+      /snap/bin/lxc launch ubuntu:18.04 kube -p kube 
   when: kube_exists.rc == 1
