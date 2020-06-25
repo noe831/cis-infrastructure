@@ -2,9 +2,16 @@ all:
   hosts:
     opus:
       ansible_host: 2607:f380:80f:f425::228
-    kube:
-      ansible_host: 2607:f380:80f:f425::251
+    kube1:
+      ansible_host: 2607:f380:80f:f425::252
+    kube2:
+      ansible_host: 2607:f380:80f:f425::253 
     jupyter:
       ansible_host: 2607:f380:80f:f425::230
-        
+  children:
+    kubernetes:
+      hosts:
+        kube1:
+        kube2: 
+     
   

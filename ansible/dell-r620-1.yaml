@@ -6,7 +6,7 @@
 #
 
 - hosts: dell-r620-1
-  name: Apply common configuration
+  name: Apply networking configuration
   roles:
     - netplan 
 
@@ -26,6 +26,7 @@
 - hosts: dell-r620-1
   name: Setup dell-r620-1 as a kube server
   vars: 
+    kube_hostname: kube2
     external_address_list: 
       - 172.30.5.253/24 
       - 172.30.5.102/24

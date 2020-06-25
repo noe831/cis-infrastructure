@@ -1,6 +1,6 @@
 ---
 # 
-# Playbook for the Dell R620-1 Machine
+# Playbook for the Dell R620-2 Machine
 #
 # This machine is deployed by MAAS and hosts opus and kube. 
 #
@@ -14,13 +14,26 @@
   name: Apply disk layout to R620 hosts
   roles:
     - lvm-r620
+    - lxd
 
 - hosts: dell-r620-2
-  name: Setup dell-r620-2 to serve critical infrastructure.
+  name: Setup dell-r620-2 to serve the opus login server.
   tags:
     - opus
+  roles:
+    - opus
+
+- hosts: dell-r620-2
+  name: Setup dell-r620-2 as a kube server
+  vars: 
+    kube_hostname: kube1
+    external_address_list: 
+      - 172.30.5.252/24 
+      - 172.30.5.101/24
+      - 2607:F380:80F:F425::252/64
+      - 2607:F380:80F:F425::101/64
+    external_mac_addr: 00:16:3e:1f:36:a2
+  tags:
     - kube
   roles:
-    - lxd
-    - opus
     - kube

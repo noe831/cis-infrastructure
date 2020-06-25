@@ -66,6 +66,62 @@
     src: 172.30.5.0/24
     proto: tcp
 
+- name: Allow traffic to the Kubernetes API server
+  become: yes
+  ufw:
+    rule: allow
+    port: '16443'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to kubelet
+  become: yes
+  ufw:
+    rule: allow
+    port: '10250'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to kubelet
+  become: yes
+  ufw:
+    rule: allow
+    port: '10255'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to the Kubernetes cluster agent
+  become: yes
+  ufw:
+    rule: allow
+    port: '25000'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to  etcd
+  become: yes
+  ufw:
+    rule: allow
+    port: '12379'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to kube-controller
+  become: yes
+  ufw:
+    rule: allow
+    port: '10257'
+    src: 172.30.5.0/24
+    proto: tcp
+
+- name: Allow traffic to kube-controller
+  become: yes
+  ufw:
+    rule: allow
+    port: '10259'
+    src: 172.30.5.0/24
+    proto: tcp
+
 - name: Allow forwarding
   become: yes
   ufw:
@@ -73,7 +129,7 @@
     route: yes
 
 - name: Get micro8s configuration file. 
-  delegate_to: kube
+  delegate_to: '{{ inventory_hostname }}'
   raw: '/snap/bin/microk8s config'
   register: micro8s_secret
   changed_when: False

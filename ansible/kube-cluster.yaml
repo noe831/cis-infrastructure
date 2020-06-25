@@ -1,0 +1,36 @@
+
+- hosts: kubernetes
+  name: Apply common firewall configuration
+  tags:
+    - firewall
+  roles:
+    - firewall
+
+- hosts: kubernetes
+  name: Install microk8s
+  tags:
+    - microk8s
+  roles:
+    - microk8s
+
+- hosts: kube1 
+  name: Setup microk8s clustering on kube1
+  tags:
+    - cluster
+  tasks:
+    - name: Make kube1 the controlling node.
+      shell: |
+        /snap/bin/microk8s add-node | perl -ne 's/: microk8s (.*)/print($1);/e;' 
+      register: join_command 
+
+- hosts: kube2
+  name: Setup microk8s clustering on kube2
+  tags:
+    - cluster
+  tasks:
+    - name: Print the register
+      debug: 
+        msg: Join command is {{ hostvars['kube1']['join_command'] }}
+    - name: Make kube2 the secondary node.
+      shell: |
+        /snap/bin/microk8s {{ hostvars['kube1']['join_command']['stdout'] }}

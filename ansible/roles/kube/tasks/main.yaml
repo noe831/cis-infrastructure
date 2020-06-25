@@ -107,7 +107,7 @@
   when: kube_profile_exists.rc == 1 
 
 - name: Check if kube exists.
-  shell: /snap/bin/lxc list | grep -q kube 
+  shell: /snap/bin/lxc list | grep -q {{ kube_hostname }}  
   register: kube_exists 
   ignore_errors: True 
   changed_when: False 
@@ -115,5 +115,5 @@
 - name: Create kube 
   shell:
     cmd: | 
-      /snap/bin/lxc launch ubuntu:18.04 kube -p kube 
+      /snap/bin/lxc launch ubuntu:18.04 {{ kube_hostname }} -p kube 
   when: kube_exists.rc == 1
