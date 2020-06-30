@@ -70,6 +70,19 @@
     rule: allow
     route: yes
 
+- name: Allow forwarding
+  become: yes
+  ufw:
+    rule: allow
+    proto: udp 
+    port: '53' 
+
+- name: Enable the firewall 
+  become: yes
+  ufw:
+    state: enabled
+    policy: deny
+
 - name: Get micro8s configuration file. 
   delegate_to: '{{ inventory_hostname }}'
   raw: '/snap/bin/microk8s config'

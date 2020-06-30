@@ -1,12 +1,5 @@
 
 - hosts: kubernetes
-  name: Apply common firewall configuration
-  tags:
-    - firewall
-  roles:
-    - firewall
-
-- hosts: kubernetes
   name: Install microk8s
   tags:
     - microk8s
