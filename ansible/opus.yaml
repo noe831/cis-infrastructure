@@ -1,0 +1,35 @@
+#
+# Configure opus our main login server. 
+#
+- hosts: opus
+  tags:
+    - opus
+  name: Packages and users.
+  become: yes
+  roles:
+    - admins
+  tasks:
+    - name: Update the package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install packages
+      package:
+        name:
+          - zsh
+          - python3-pip
+          - fontconfig
+          - docker.io
+        state: latest
+    - name: Install snaps
+      snap:
+        classic: yes
+        name:
+          - kubectl
+    - name: Allow admins to nopassword sudo 
+      blockinfile: 
+        path: /etc/sudoers.d/99-cis-users
+        create: yes
+        block: |
+          %sudo ALL=(ALL) NOPASSWD:ALL
+        
