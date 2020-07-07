@@ -40,8 +40,9 @@
         pkg:
           - python3-pip
           - python3-venv
-          - npm
           - nginx
+          - docker.io
+          - npm
 
     - name: Remove old node package. 
       apt:
@@ -54,16 +55,15 @@
         name: node
         channel: 14/stable
         classic: yes
-
-
+        
 - name: Install and configure the Python environment.
   hosts: jupyter
+  become: yes
   tags:
     - jupyter-venv
   tasks: 
 
     - name: Create the virtualenv directory
-      become: yes
       file:
         path: /opt/jupyterhub
         state: directory
@@ -84,10 +84,9 @@
         virtualenv_command: /usr/bin/python3 -m venv
         name:
           - jupyterhub 
-          - jupyterlab 
+          - dockerspawner
 
     - name: Install JS components.
-      become: yes
       npm:
         name: configurable-http-proxy
         global: yes
@@ -118,8 +117,25 @@
         regexp: 'c.JupyterHub.bind_url'
         line: c.JupyterHub.bind_url = 'http://localhost:8000/'
 
+    - name: Configure Docker Spawner
+      blockinfile:
+        path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+        block: |
+          c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
+          c.DockerSpawner.container_image = 'mikematera/jupyter-p4e:test1'
+          c.DockerSpawner.extra_host_config = {'mem_limit': '1g'}
+          c.DockerSpawner.remove = True
+          c.JupyterHub.proxy_api_ip = '0.0.0.0'
+          c.JupyterHub.hub_ip = '0.0.0.0'
+
+          # Get the Docker interface IP address. HACK!
+          import subprocess
+          import re
+          output = subprocess.check_output('ip addr show docker0', shell=True, encoding='utf-8')
+          got = re.search(r'inet\s(\S+)/16', output)
+          c.DockerSpawner.hub_ip_connect = got.group(1)
+
     - name: Create the JupyterHub service 
-      become: yes
       file:
         path: /opt/jupyterhub/etc/systemd
         state: directory
@@ -128,7 +144,6 @@
         mode: '0775'
 
     - name: Write JupyterHub serivce file. 
-      become: yes
       blockinfile:
         owner: root
         group: ubuntu
@@ -148,7 +163,6 @@
           WantedBy=multi-user.target
 
     - name: Install JupyterHub service. 
-      become: yes
       file: 
         src: /opt/jupyterhub/etc/systemd/jupyterhub.service 
         dest: /etc/systemd/system/jupyterhub.service
@@ -157,19 +171,16 @@
         state: link
 
     - name: Reload systemd config
-      become: yes
       systemd:
         daemon_reload: yes
 
     - name: Enable and start JupyterHub
-      become: yes
       systemd:
         name: jupyterhub
         enabled: yes
         state: started
 
     - name: Allow HTTP
-      become: yes
       ufw:
         rule: allow
         port: '80'
@@ -182,3 +193,8 @@
         port: '443'
         proto: tcp
 
+    - name: Allow connections to containers.
+      ufw:
+        rule: allow
+        interface: docker0
+        direction: in
