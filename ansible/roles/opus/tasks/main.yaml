@@ -57,7 +57,7 @@
   shell: 
     cmd: |
       lxc profile create opus
-      lxc profile device add opus root disk pool=default path=/
+      lxc profile device add opus root disk size=100GB pool=default path=/
       lxc profile device add opus homes disk source=/data/homes/opus path=/home
       lxc profile device add opus netplan disk source=/data/config/opus/netplan path=/etc/netplan
       lxc profile device add opus eth0 nic name=eth0 nictype=bridged parent=server hwaddr=00:16:3e:59:7c:b7 
