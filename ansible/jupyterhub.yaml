@@ -9,6 +9,13 @@
   roles:
     - admins
   tasks: 
+    - name: Remove old node package and nginx
+      apt:
+        pkg:
+          - nodejs
+          - nginx
+        state: absent
+
     - name: Add caddy repository. 
       apt_repository:
         repo: deb [trusted=yes] https://apt.fury.io/caddy/ / 
@@ -43,12 +50,6 @@
           - nginx
           - docker.io
           - npm
-
-    - name: Remove old node package. 
-      apt:
-        pkg:
-          - nodejs
-        state: absent
 
     - name: Install newer node by snap
       snap:
@@ -122,16 +123,17 @@
         path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
         block: |
           c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
-          c.DockerSpawner.container_image = 'mikematera/jupyter-p4e:test1'
+          c.DockerSpawner.container_image = 'mikematera/jupyter-p4e:test2'
           c.DockerSpawner.extra_host_config = {'mem_limit': '1g'}
           c.DockerSpawner.remove = True
           c.JupyterHub.proxy_api_ip = '0.0.0.0'
           c.JupyterHub.hub_ip = '0.0.0.0'
+          c.SystemUserSpawner.start_timeout = 240 
 
           # Get the Docker interface IP address. HACK!
           import subprocess
           import re
-          output = subprocess.check_output('ip addr show docker0', shell=True, encoding='utf-8')
+          output = subprocess.check_output('/usr/sbin/ip addr show docker0', shell=True, encoding='utf-8')
           got = re.search(r'inet\s(\S+)/16', output)
           c.DockerSpawner.hub_ip_connect = got.group(1)
 
@@ -173,6 +175,12 @@
     - name: Reload systemd config
       systemd:
         daemon_reload: yes
+
+    - name: Make sure docker is started.
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
 
     - name: Enable and start JupyterHub
       systemd:
