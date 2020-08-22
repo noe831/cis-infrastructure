@@ -47,7 +47,7 @@ class TestDNS(unittest.TestCase):
 
 		for host, cname in self.select(is_cname):
 			got = self.real_resolver.query(cname, "A")
-			self.assertGreater(len(got), 0, f"The CNAME {cname} does not resolve.")
+			self.assertGreater(len(got), 0, f"Cannot resolve A for {cname} (required by {host}).")
 
 	def test_a_records(self):
 		for host, addr in self.select(lambda x: ipaddress.ip_address(x) and True):
