@@ -19,7 +19,7 @@ ns: |
   @ IN NS ns2.cis.cabrillo.edu.
 
 mx: |
-  @ IN MX 10 opus.cis.cabrillo.edu.
+  @ IN MX 10 mail.cis.cabrillo.edu.
 
 txt: |
   @ IN TXT "v=spf1 ip4:207.62.187.0/24 ip6:2607:f380:80f::/48 -all"
@@ -83,6 +83,9 @@ hosts:
 
   rack0: 
     - 192.168.0.254
+  
+  mail: 
+    - ns1.cis.cabrillo.edu.
   
 #  killgrave:
 #    - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
