@@ -44,6 +44,17 @@
   shell: /snap/bin/microk8s enable helm3 
   when: microk8s_helm3.rc == 0
 
+- name: Enable kube dns.
+  shell: |
+    /snap/bin/microk8s status | grep -q "dns: disabled" 
+  register: microk8s_dns
+  ignore_errors: True 
+  changed_when: False 
+  
+- name: Enable kube dns.
+  shell: /snap/bin/microk8s enable dns 
+  when: microk8s_dns.rc == 0
+  
 - name: Allow traffic from micro8s cni0 interface
   become: yes
   ufw:
