@@ -17,13 +17,6 @@
     - lxd
 
 - hosts: dell-r620-1
-  name: Setup dell-r620-1 to serve jupyter hub.
-  tags:
-    - jupyter
-  roles:
-    - jupyter
-
-- hosts: dell-r620-1
   name: Setup dell-r620-1 as a kube server
   vars: 
     kube_hostname: kube2

@@ -58,6 +58,7 @@
     cmd: |
       /snap/bin/lxc profile create jupyter
       /snap/bin/lxc profile set jupyter security.nesting true
+      /snap/bin/lxc profile set jupyter limits.memory 150GB
       /snap/bin/lxc profile device add jupyter root disk size=100GB pool=default path=/
       /snap/bin/lxc profile device add jupyter homes disk source=/data/homes/jupyter path=/home
       /snap/bin/lxc profile device add jupyter netplan disk source=/data/config/jupyter/netplan path=/etc/netplan

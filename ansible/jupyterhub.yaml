@@ -47,7 +47,6 @@
         pkg:
           - python3-pip
           - python3-venv
-          - nginx
           - docker.io
           - npm
 
@@ -118,25 +117,6 @@
         regexp: 'c.JupyterHub.bind_url'
         line: c.JupyterHub.bind_url = 'http://localhost:8000/'
 
-    - name: Configure Docker Spawner
-      blockinfile:
-        path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-        block: |
-          c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
-          c.DockerSpawner.container_image = 'mikematera/jupyter-p4e:test2'
-          c.DockerSpawner.extra_host_config = {'mem_limit': '1g'}
-          c.DockerSpawner.remove = True
-          c.JupyterHub.proxy_api_ip = '0.0.0.0'
-          c.JupyterHub.hub_ip = '0.0.0.0'
-          c.SystemUserSpawner.start_timeout = 240 
-
-          # Get the Docker interface IP address. HACK!
-          import subprocess
-          import re
-          output = subprocess.check_output('/usr/sbin/ip addr show docker0', shell=True, encoding='utf-8')
-          got = re.search(r'inet\s(\S+)/16', output)
-          c.DockerSpawner.hub_ip_connect = got.group(1)
-
     - name: Create the JupyterHub service 
       file:
         path: /opt/jupyterhub/etc/systemd
@@ -187,7 +167,7 @@
         name: jupyterhub
         enabled: yes
         state: started
-
+  
     - name: Allow HTTP
       ufw:
         rule: allow
@@ -206,3 +186,39 @@
         rule: allow
         interface: docker0
         direction: in
+
+- name: Reconfigure the spawner
+  hosts: jupyter
+  tags:
+    - reconfig
+  become: true
+  tasks: 
+    - name: Configure Docker Spawner
+      blockinfile:
+        path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+        block: |
+          c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
+          c.DockerSpawner.container_image = 'mikematera/python-for-everyone:2020082101'
+          c.Spawner.cpu_limit = 2
+          c.Spawner.mem_limit = '2G'
+          c.DockerSpawner.extra_host_config = {
+            'cpu_period': 100000,
+            'cpu_quota':  200000,
+            'pids_limit': 100,
+          }
+          c.DockerSpawner.remove = True
+          c.JupyterHub.proxy_api_ip = '0.0.0.0'
+          c.JupyterHub.hub_ip = '0.0.0.0'
+          c.SystemUserSpawner.start_timeout = 240 
+
+          # Get the Docker interface IP address. HACK!
+          import subprocess
+          import re
+          output = subprocess.check_output('/usr/sbin/ip addr show docker0', shell=True, encoding='utf-8')
+          got = re.search(r'inet\s(\S+)/16', output)
+          c.DockerSpawner.hub_ip_connect = got.group(1)
+
+    - name: Restart JupyterHub
+      systemd:
+        name: jupyterhub
+        state: restarted

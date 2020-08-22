@@ -2,6 +2,15 @@ all:
   hosts:
     dell-r630-1:
       ansible_host: 192.168.0.130
+      primary_interface: enp131s0f0
+      raid_md1_0: /dev/sde 
+      raid_md1_0: /dev/sdf 
+      raid_md2_0: /dev/sdc 
+      raid_md2_0: /dev/sdd 
+      device_ssd: /dev/md1
+      device_hdd: /dev/md2
+      vg_disk_pool_size: 900
+      vg_disk_home_size: 200
     supermicro-1:
       ansible_host: 192.168.0.131
     supermicro-2:
