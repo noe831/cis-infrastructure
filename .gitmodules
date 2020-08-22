@@ -1,0 +1,3 @@
+[submodule "Mail"]
+	path = Mail
+	url = https://github.com/panubo/docker-postfix.git
