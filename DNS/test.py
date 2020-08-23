@@ -86,7 +86,7 @@ class TestDNS(unittest.TestCase):
 				rev_record = rev_record.replace('187.', '224-27.187.')
 				got = self.ext_resolver.query(rev_record, 'PTR')
 				self.assertGreater(len(got), 0, f"Failed to reverse {host} {rev_record}")	
-				self.assertEqual(host + ".cis.cabrillo.edu.", got[0], "Reverse resolution mismatch {host} != {got[0]}")
+				self.assertTrue(host + ".cis.cabrillo.edu." in got, f"Reverse resolution mismatch {host} not in {got}")
 
 	def test_internal_domains(self):
 		for zone in ["cis.cabrillo.edu", 
