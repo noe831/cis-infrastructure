@@ -12,4 +12,4 @@ spec:
       port: 25
       protocol: TCP 
   externalIPs:
-    - 172.30.5.101
+    - 172.30.5.252
