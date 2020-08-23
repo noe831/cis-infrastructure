@@ -85,7 +85,8 @@ hosts:
     - 192.168.0.254
   
   mail: 
-    - ns1.cis.cabrillo.edu.
+    - 207.62.187.252
+    - 172.30.5.252
   
 #  killgrave:
 #    - killgrave-instance-1.ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
