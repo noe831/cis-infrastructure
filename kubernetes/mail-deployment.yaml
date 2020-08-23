@@ -26,8 +26,6 @@ spec:
             value: "mail.cis.cabrillo.edu"
           - name: MYNETWORKS
             value: "10.0.0.0/8"
-          - name: SMTPD_USERS
-            value: "relayuser:23890jfa8jasd8jf"            
         resources:
           requests:
             cpu: 100m
