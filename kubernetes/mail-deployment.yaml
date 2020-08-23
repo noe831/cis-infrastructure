@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cis-mail
-        image: mikematera/cis-mail:test1
+        image: mikematera/cis-mail:2020082201
         imagePullPolicy: IfNotPresent
         env:
           - name: MAILNAME
