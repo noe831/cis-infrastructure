@@ -198,7 +198,7 @@
         path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
         block: |
           c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
-          c.DockerSpawner.container_image = 'mikematera/python-for-everyone:2020082101'
+          c.DockerSpawner.container_image = 'mikematera/p4e-stack:20200828'
           c.Spawner.cpu_limit = 2
           c.Spawner.mem_limit = '2G'
           c.DockerSpawner.extra_host_config = {
