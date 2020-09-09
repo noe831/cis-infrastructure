@@ -85,6 +85,7 @@
         name:
           - jupyterhub 
           - dockerspawner
+          - jupyterhub-idle-culler
 
     - name: Install JS components.
       npm:
@@ -198,13 +199,13 @@
         path: /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
         block: |
           c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
-          c.DockerSpawner.container_image = 'mikematera/python-for-everyone:2020082101'
+          c.DockerSpawner.container_image = 'mikematera/p4e-stack:20200828'
           c.Spawner.cpu_limit = 2
           c.Spawner.mem_limit = '2G'
           c.DockerSpawner.extra_host_config = {
             'cpu_period': 100000,
             'cpu_quota':  200000,
-            'pids_limit': 100,
+            'pids_limit': 1000,
           }
           c.DockerSpawner.remove = True
           c.JupyterHub.proxy_api_ip = '0.0.0.0'
@@ -217,6 +218,24 @@
           output = subprocess.check_output('/usr/sbin/ip addr show docker0', shell=True, encoding='utf-8')
           got = re.search(r'inet\s(\S+)/16', output)
           c.DockerSpawner.hub_ip_connect = got.group(1)
+
+          c.Authenticator.admin_users = { 'mmatera' }
+          c.JupyterHub.admin_access = True
+
+          import sys
+          c.JupyterHub.services = [
+            {
+                'name': 'idle-culler',
+                'admin': True,
+                'command': [
+                    sys.executable,
+                    '-m', 'jupyterhub_idle_culler',
+                    '--timeout=3600'
+                ],
+            }
+          ]
+
+          c.Authenticator.delete_invalid_users = True
 
     - name: Restart JupyterHub
       systemd:
