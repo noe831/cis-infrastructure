@@ -96,5 +96,4 @@ hosts:
 
 subdomains:
   - name: mike
-    ns4: 34.204.242.206
-    ns6: 2600:1f18:bb3:f901:aaeb:d61:3176:8f8f
+    ns1: [34.204.242.206, 2600:1f18:bb3:f901:aaeb:d61:3176:8f8f]
