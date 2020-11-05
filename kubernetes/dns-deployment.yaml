@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: cis-dns-internal
-        image: mikematera/cis-dns:2020082201
+        image: mikematera/cis-dns:2020110501
         imagePullPolicy: Always
         env:
           - name: DNS_ROLE
