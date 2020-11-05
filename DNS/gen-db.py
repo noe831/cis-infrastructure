@@ -9,6 +9,7 @@ import ipaddress
 import glob 
 import pathlib 
 import os 
+import argparse
 
 
 def reverse(hosts, network):
@@ -49,7 +50,23 @@ def fwd(hosts, role):
 	return rval 
 
 
+def subdomain(domains):
+	"""Make glue records.""" 
+	rval = ""
+	for domain in domains:
+		rval += f"""{domain['name']}.cis.cabrillo.edu. IN NS ns1.{domain['name']}.cis.cabrillo.edu.\n"""
+		if 'ns4' in domain:
+			rval += f"""ns1.{domain['name']}.cis.cabrillo.edu. IN A {domain['ns4']}\n"""
+		if 'ns6' in domain:
+			rval += f"""ns1.{domain['name']}.cis.cabrillo.edu. IN AAAA {domain['ns6']}\n"""
+	return rval 
+
+
 def main():
+	parser = argparse.ArgumentParser(description='Generate zone files from templates')
+	parser.add_argument('--dry-run', action='store_true', help='Print files instead of writing them.')
+	args = parser.parse_args()
+
 	inv = {}
 	for source in sorted(glob.glob('source/*.yaml')):
 		print(f"Loading {source}")
@@ -59,20 +76,23 @@ def main():
 	now = datetime.datetime.now()
 	inv['soa'] = inv['soa'].format(serial=f'{now:%Y%m%d}{inv["serial"]}')
 
-	os.mkdir('build')
+	if not args.dry_run:
+		os.mkdir('build')
 
 	for templfile in glob.glob('templates/db.*'):
 		print(f"Building template {templfile}")
 		with open(templfile) as f:
 			template = jinja2.Template(f.read())	
 			output = "build/" + pathlib.Path(templfile).name
-			with open(output, 'w') as of:
-				rendered = template.render(inv, 
-						reverse=reverse,
-						fwd=fwd,
-					)
-				of.write(rendered)
-				print(rendered)
+			rendered = template.render(inv, 
+					reverse=reverse,
+					fwd=fwd,
+					subdomain=subdomain,
+				)
+			print(rendered)
+			if not args.dry_run:
+				with open(output, 'w') as of:
+					of.write(rendered)
 
 if __name__ == '__main__':
 	main()

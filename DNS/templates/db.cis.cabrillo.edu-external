@@ -7,3 +7,5 @@
 {{ misc }}
 
 {{ fwd(hosts=hosts, role='external') }}
+
+{{ subdomain(domains=subdomains) }}
