@@ -1,6 +1,6 @@
 ---
 
-serial: "02"
+serial: "03"
 
 ttl: |
   $TTL 1h
@@ -103,4 +103,3 @@ subdomains:
     ns1: [52.22.156.218, 2600:1f18:16ca:7901:29f3:6745:2f8c:fa10]
   - name: awsadrian
     ns1: [35.174.180.8, 2600:1f18:94c:bb01:96cb:3cef:ca1:216e]
-    
