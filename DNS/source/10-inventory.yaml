@@ -98,7 +98,7 @@ subdomains:
   - name: mike
     ns1: [34.204.242.206]
   - name: andrealand
-    ns1: [18.204.131.187d]
+    ns1: [18.204.131.187]
   - name: ecbarkis
     ns1: [52.22.156.218]
   - name: awsadrian
