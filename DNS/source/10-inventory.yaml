@@ -1,6 +1,6 @@
 ---
 
-serial: "04"
+serial: "01"
 
 ttl: |
   $TTL 1h
@@ -96,10 +96,12 @@ hosts:
 
 subdomains:
   - name: mike
-    ns1: [34.204.242.206, 2600:1f18:bb3:f901:aaeb:d61:3176:8f8f]
+    ns1: [34.204.242.206]
   - name: andrealand
-    ns1: [18.204.131.187, 2600:1f18:146d:c601:4dbe:76cf:6f99:e70d]
+    ns1: [18.204.131.187d]
   - name: ecbarkis
-    ns1: [52.22.156.218, 2600:1f18:16ca:7901:29f3:6745:2f8c:fa10]
+    ns1: [52.22.156.218]
   - name: awsadrian
-    ns1: [35.174.180.8, 2600:1f18:94c:bb01:96cb:3cef:ca1:216e]
+    ns1: [35.174.180.8]
+  - name: awsmac
+    ns1: [18.215.110.140]
