@@ -1,6 +1,6 @@
 ---
 
-serial: "01"
+serial: "02"
 
 ttl: |
   $TTL 1h
