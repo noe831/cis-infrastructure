@@ -1,6 +1,6 @@
 ---
 
-serial: "02"
+serial: "01"
 
 ttl: |
   $TTL 1h
@@ -100,7 +100,7 @@ subdomains:
   - name: andrealand
     ns1: [18.204.131.187]
   - name: ecbarkis
-    ns1: [52.22.156.218]
+    ns1: [54.87.14.25]
   - name: awsadrian
     ns1: [35.174.180.8]
   - name: awsmac
