@@ -25,6 +25,8 @@ txt: |
   @ IN TXT "v=spf1 ip4:207.62.187.0/24 ip6:2607:f380:80f::/48 -all"
 
 misc: |
+  @ IN CAA 0 issue "letsencrypt.org"
+  @ IN CAA 0 issuewild "letsencrypt.org"
   jeff IN CAA 0 issue "letsencrypt.org"
   jeff IN CAA 0 issuewild "letsencrypt.org"
   jupyter IN CAA 0 issue "letsencrypt.org"

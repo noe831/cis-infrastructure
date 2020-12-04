@@ -128,5 +128,10 @@ class TestDNS(unittest.TestCase):
 		got = self.ext_resolver.query('www.google.com', 'A')
 		self.assertEqual(len(got), 0, f"External zone DID forward a query.")	
 
+	# FIXME: No support for CAA in pydig.
+	#def test_external_caa(self):
+	#	got = self.ext_resolver.query('cis.cabrillo.edu', 'CAA')
+	#	self.assertGreater(len(got), 0, f"External did not respond to a CAA.")	
+
 if __name__ == '__main__':
 	unittest.main(verbosity=3)
