@@ -107,3 +107,10 @@ subdomains:
     ns1: [35.174.180.8]
   - name: awsmac
     ns1: [18.215.110.140]
+  - name: andrew192
+    ns1: [52.204.101.142]
+  - name: bludhaven
+    ns1: [52.70.195.158]
+  - name: foodzandkraftz
+    ns1: [54.242.111.171]
+    
