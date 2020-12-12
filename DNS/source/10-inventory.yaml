@@ -113,4 +113,5 @@ subdomains:
     ns1: [52.70.195.158]
   - name: foodzandkraftz
     ns1: [54.242.111.171]
-    
+  - name: ryan
+    ns1: [34.234.5.130]
