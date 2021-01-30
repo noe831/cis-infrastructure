@@ -1,6 +1,6 @@
-#
-# This is the killgrave server for CIS-54 
-#
+# Killgrave server 
 
-killgrave:
-  - killgrave.cluster-ca3hsvz6gvc4.us-west-2.rds.amazonaws.com
+hosts:
+  killgrave:
+    - killgrave.cluster-ca3hsvz6gvc4.us-west-2.rds.amazonaws.com.
+
