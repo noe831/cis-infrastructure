@@ -78,7 +78,13 @@ def main():
 	for source in sorted(glob.glob('source/*.yaml')):
 		print(f"Loading {source}")
 		with open(source) as f:
-			inv.update(yaml.load(f, Loader=yaml.Loader))
+			y = yaml.load(f, Loader=yaml.Loader)
+			for k in list(inv.keys()):
+				if k in y:
+					inv[k].update(y[k])
+			for k in y:
+				if k not in inv:
+					inv[k] = y[k]
 
 	now = datetime.datetime.now()
 	inv['soa'] = inv['soa'].format(serial=f'{now:%Y%m%d}{inv["serial"]}')
