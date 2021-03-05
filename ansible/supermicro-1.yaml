@@ -1,0 +1,9 @@
+---
+# 
+# Playbook for the Supermicro-1 Machine
+#
+
+- hosts: supermicro-1
+  name: Apply networking configuration
+  roles:
+    - netplan 

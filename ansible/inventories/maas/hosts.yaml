@@ -13,6 +13,7 @@ all:
       vg_disk_home_size: 200
     supermicro-1:
       ansible_host: 192.168.0.131
+      primary_interface: cisnet
     supermicro-2:
       ansible_host: 192.168.0.132
     supermicro-3:
