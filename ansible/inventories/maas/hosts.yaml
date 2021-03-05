@@ -31,9 +31,9 @@ all:
       device_hdd: /dev/sdb
     dell-r610-1:
       ansible_host: 192.168.0.136
-    dell-r610-1:
+    dell-r610-2:
       ansible_host: 192.168.0.137
-    dell-r610-1:
+    dell-r610-3:
       ansible_host: 192.168.0.138
   children:
     maas:
