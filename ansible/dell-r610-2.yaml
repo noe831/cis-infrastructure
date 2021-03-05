@@ -1,0 +1,13 @@
+---
+# 
+# Playbook for the Dell R610-2 Machine
+#
+# This machine is deployed by MAAS
+#
+
+- hosts: dell-r610-2
+  name: Apply networking configuration
+  remote_user: ubuntu
+  roles:
+    - netplan 
+
