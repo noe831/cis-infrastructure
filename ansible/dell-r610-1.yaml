@@ -1,0 +1,28 @@
+---
+# 
+# Playbook for the Dell R630-1 Machine
+#
+# This machine is deployed by MAAS and hosts jupyter
+#
+
+### FIXME: Software RAID is assembled by hand. 
+# /dev/md1: 600GB RAID1 - SSD
+# /dev/md2: 1.2TB RAID1 - SSD (called disk)
+#
+- hosts: dell-r610-1
+  name: Apply networking configuration
+  roles:
+    - netplan 
+
+# - hosts: dell-r630-1
+#   name: Apply disk layout to R630 hosts
+#   roles:
+#     - lvm-r630
+#     - lxd
+
+# - hosts: dell-r630-1
+#   name: Setup dell-r630-1 to serve jupyter hub.
+#   tags:
+#     - jupyter
+#   roles:
+#     - jupyter
