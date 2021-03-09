@@ -3,7 +3,7 @@
 # Playbook for the Supermicro-3 Machine
 #
 
-- hosts: supermicro-1
+- hosts: supermicro-3
   name: Apply networking configuration
   roles:
     - netplan 
