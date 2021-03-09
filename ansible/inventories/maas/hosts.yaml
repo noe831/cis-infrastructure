@@ -18,6 +18,7 @@ all:
       ansible_host: 192.168.0.132
     supermicro-3:
       ansible_host: 192.168.0.133
+      primary_interface: rename4
     dell-r620-1:
       ansible_host: 192.168.0.134
       primary_interface: cisnet
