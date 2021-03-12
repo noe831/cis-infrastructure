@@ -1,0 +1,15 @@
+---
+# 
+# Playbook for the Dell R610-3 Machine
+#
+# This machine is deployed by MAAS and hosts jupyter
+#
+
+### FIXME: Software RAID is assembled by hand. 
+# /dev/md1: 600GB RAID1 - SSD
+# /dev/md2: 1.2TB RAID1 - SSD (called disk)
+#
+- hosts: dell-r610-3
+  name: Apply networking configuration
+  roles:
+    - netplan 
