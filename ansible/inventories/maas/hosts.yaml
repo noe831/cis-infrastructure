@@ -16,6 +16,7 @@ all:
       primary_interface: cisnet
     supermicro-2:
       ansible_host: 192.168.0.132
+      primary_interface: cisnet
     supermicro-3:
       ansible_host: 192.168.0.133
       primary_interface: rename4
