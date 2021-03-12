@@ -19,6 +19,7 @@ all:
       primary_interface: cisnet
     supermicro-3:
       ansible_host: 192.168.0.133
+      primary_interface: rename4
     dell-r620-1:
       ansible_host: 192.168.0.134
       primary_interface: cisnet
@@ -33,10 +34,13 @@ all:
       device_hdd: /dev/sdb
     dell-r610-1:
       ansible_host: 192.168.0.136
+      primary_interface: cisnet
     dell-r610-2:
       ansible_host: 192.168.0.137
+      primary_interface: cisnet
     dell-r610-3:
       ansible_host: 192.168.0.138
+      primary_interface: cisnet
   children:
     maas:
       hosts:
