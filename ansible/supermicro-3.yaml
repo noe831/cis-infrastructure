@@ -5,5 +5,13 @@
 
 - hosts: supermicro-3
   name: Apply networking configuration
+  remote_user: ubuntu
   roles:
     - netplan 
+
+- hosts: supermicro-3
+  name: Apply disk layout and install LXD
+  remote_user: ubuntu
+  roles:
+    - lvm
+    - lxd 

@@ -1,5 +1,5 @@
 ---
-# 
+# 2021 owner: Elliot
 # Playbook for the Dell R610-3 Machine
 #
 # This machine is deployed by MAAS and hosts jupyter
@@ -11,5 +11,13 @@
 #
 - hosts: dell-r610-3
   name: Apply networking configuration
+  remote_user: ubuntu
   roles:
     - netplan 
+
+- hosts: dell-r610-3
+  name: Apply disk layout and install LXD
+  remote_user: ubuntu
+  roles:
+    - lvm
+    - lxd 
