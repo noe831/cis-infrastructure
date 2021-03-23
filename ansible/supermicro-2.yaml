@@ -1,5 +1,5 @@
 ---
-# 
+# 2021 owner: Lili
 # Playbook for the Supermicro-2 Machine
 #
 # This machine is deployed by MAAS and hosts the jupyter container
@@ -7,13 +7,15 @@
 
 - hosts: supermicro-2
   name: Apply networking configuration
+  remote_user: ubuntu
   roles:
     - netplan 
 
 - hosts: supermicro-2
-  name: Apply disk layout to supermicro-2 hosts
+  name: Apply disk layout and install LXD
+  remote_user: ubuntu
   roles:
-    - lvm-r620
+    - lvm
     - lxd
 #
 #- hosts: supermicro-2

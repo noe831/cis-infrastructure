@@ -1,7 +1,7 @@
 #
-# This task configures the Dell R630 with two LVM volume groups.
+# This task configures the hosts with two LVM volume groups.
 #
-# Host variable must define two devices:
+# Host in maas inventory must define two variables:
 #
 # device_ssd - A block device to setup the SSD pool with 
 # device_hdd - A block device to setup the DISK pool with 
