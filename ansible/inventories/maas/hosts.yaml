@@ -17,6 +17,10 @@ all:
     supermicro-2:
       ansible_host: 192.168.0.132
       primary_interface: cisnet
+      device_ssd: /dev/sda 
+      device_hdd: /dev/sdb
+      vg_disk_pool_size: 500
+      vg_disk_home_size: 400
     supermicro-3:
       ansible_host: 192.168.0.133
       primary_interface: rename4
